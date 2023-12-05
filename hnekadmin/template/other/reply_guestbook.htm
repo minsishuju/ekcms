@@ -1,0 +1,98 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <link rel="shortcut icon" href="favicon.ico" />
+    <link rel="stylesheet" type="text/css" href="{__PUBLIC__}style/bootstrap_min.css" media="all" />
+    <link rel="stylesheet" type="text/css" href="{__PUBLIC__}style/css.css" media="all" />
+    <script type="text/javascript" src="{__PUBLIC__}js/jquery.js" ></script>
+    <title>E营销管理系统</title>
+</head>
+<body>
+    <form action="" method="post" class="form-search">
+        <input name="guestbook_id" value="{$info['guestbook_id']}" type="hidden">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th colspan="2" class="text-center"><h2>回复留言</h2></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td align="right" width="20%"><strong>用户名称：</strong></td>
+                    <td>
+                        {@iHtmlSpecialChars($info['name'])}
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right"><strong>性别：</strong></td>
+                    <td>
+                        {if $info['sex'] == 1}男{else/}女{/if}
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right"><strong>联系QQ：</strong></td>
+                    <td>
+                        {@iHtmlSpecialChars($info['qq'])}
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right"><strong>电子邮箱：</strong></td>
+                    <td>
+                        {@iHtmlSpecialChars($info['email'])}
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right"><strong>手机：</strong></td>
+                    <td>
+                        {@iHtmlSpecialChars($info['tel'])}
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right"><strong>联系地址：</strong></td>
+                    <td>
+                        {@iHtmlSpecialChars($info['address'])}
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right"><strong>相关内容：</strong></td>
+                    <td>
+                        {@iHtmlSpecialChars($info['title'])}
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right"><strong>留言内容：</strong></td>
+                    <td>
+                        {@iHtmlSpecialChars($info['introduce'])}
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right"><strong>回复信息：</strong></td>
+                    <td>
+                        <textarea name="reply" placeholder="">{@iHtmlSpecialChars($info['reply'])}</textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right"><strong>推荐：</strong></td>
+                    <td>
+                        <input name="is_show" type="radio" value="1" {if $info['is_show'] == 1}checked="checked"{/if}>是
+                        <input name="is_show" type="radio" value="0" {if $info['is_show'] == 0}checked="checked"{/if}>否
+                    </td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="4" class="text-center">
+                        <input class="btn btn-primary" type="submit" value="保 存" />
+                        <input class="btn btn-warning" type="button" onclick="javascript:history.back(-1);" value="返 回" />
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </form>
+</body>
+</html>

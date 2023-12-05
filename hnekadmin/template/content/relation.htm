@@ -1,0 +1,79 @@
+<form action="" method="post" id="content_form" class="form-inline">
+    <ul class="breadcrumb">
+        <li>
+            <b class="kserico">栏目：</b>
+            <select name="category_id" class="input-small">
+                <option value="0">全部</option>
+                {foreach $categorys as $vo}
+                    {if $vo['type_id'] == 1 || $vo['type_id'] == 2}
+                    <option value="{$vo['category_id']}" {if $_GET['category_id'] == $vo['category_id']}selected="selected"{/if}>
+                        {for $i=1;$i<$vo['stort'];$i++}
+                        &nbsp;&nbsp;&nbsp;
+                        {/for}
+                        {if $vo['parent_id'] != 0}
+                        |--
+                        {/if}
+                        {$vo['name']}
+                    </option>
+                    {/if}
+                {/foreach}
+            </select>
+            <b class="kserico">标题：</b>
+            <input name="name" type="text" class="input-mini" value="{$_GET['name']}"> 
+            <input type="button" class="btn" id="search_content" value="搜 索">
+        </li>
+    </ul>
+</form>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th width="15">ID</th>
+            <th>标题</th>
+            <th width="50">添加时间</th>
+        </tr>
+    </thead>
+    <tbody>
+        {foreach $list as $vo}
+        <tr>
+            <td><label class="checkbox"><input type="checkbox" name="content_id" value="{$vo['content_id']}">{$vo['content_id']}</label></td>
+            <td ><a href="javascript:void(0)" title="{$vo['title']}">{@iCutstr($vo['title'],55)}</a></td>
+            <td align='center'>{@date('Y-m-d',$vo['add_time'])}</td>
+        </tr>
+        {/foreach}
+    </tbody>
+    <tfoot>
+        <tr> 
+            <td colspan="3"><div class="pagination">{$page}</div></td>
+        </tr>
+    </tfoot>
+</table>
+<script>
+$(function(){
+    $('.pagination a').click(function(){
+        $.get($(this).attr('href'),function(data){
+            $('#updateimg .modal-body').html(data);
+        },'html')
+        return false;
+    });
+    $('input[name="content_id"]').click(function(){
+        var content_id = $(this).val();
+        if($(this).is(':checked')){
+            if($('#relation_box').children('li[rel="' + content_id + '"]').length <= 0){
+                var html = '<li rel="' + content_id + '">' + $(this).parents('td').next().html() + '<input type="hidden" value="' + content_id + '" name="ids[]"></li>';
+                $('#relation_box').append(html);
+            }
+        }else{
+            $('#relation_box').children('li[rel="' + content_id + '"]').remove();
+        }
+        
+    });
+    $('#search_content').click(function(){
+        var name = $('#content_form input[name="name"]').val();
+        var category_id = $('#content_form select[name="category_id"]').val();
+        $.get('index.php?c=content&a=relation&category_id='+category_id +'&name='+name,function(data){
+            $('#updateimg .modal-body').html(data);
+        },'html')
+        return false;
+    });
+});
+</script>

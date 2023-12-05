@@ -1,0 +1,45 @@
+<?php if (!defined('IN_FW')) exit('Access Denied');?>
+<div class="left">
+    <div class="main">
+        <div class="subnav">
+            <div class="subnav-title">
+                <a href="javascript:void(0);" target="_self" class='toggle-subnav'><span>微信管理</span></a>
+            </div>
+            <ul class="subnav-menu" style="display: block">
+                <li>
+                    <a href="index.php?c=wechar&a=member" target="mainFrame">粉丝管理</a>
+                </li>
+                <li>
+                    <a href="index.php?c=wechar&a=message" target="mainFrame">消息管理</a>
+                </li>
+                <li>
+                    <a href="index.php?c=wechar&a=menu" target="mainFrame">菜单管理</a>
+                </li>
+                <li>
+                    <a href="index.php?c=wechar&a=material" target="mainFrame">素材管理</a>
+                </li>
+                <li>
+                    <a href="index.php?c=wechar&a=sendall" target="mainFrame">消息群发</a>
+                </li>
+                <li>
+                    <a href="index.php?c=wechar&a=qrcode" target="mainFrame">参数二维码</a>
+                </li>
+                <li>
+                    <a href="index.php?c=wechar&a=api" target="mainFrame">微信接口</a>
+                </li>
+            </ul>
+        </div>
+        <div class="subnav">
+            <?php echo $spread;?>
+        </div>
+    </div>
+</div>
+<script>
+$('div.subnav > .subnav-title').click(function(){    	
+    if($(this).parent().find('ul').is(':hidden')){
+        $(this).parent().find('ul').stop().slideDown();
+    }else{
+        $(this).parent().find('ul').stop().slideUp();
+    }
+});
+</script>

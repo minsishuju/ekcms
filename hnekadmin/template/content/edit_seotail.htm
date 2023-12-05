@@ -1,0 +1,22 @@
+<form action="index.php?c=content&a=edit_seotail" id="modal_form" method="post" class="form-search">
+    <input name="tail_id" type="hidden" value="{$info['tail_id']}">
+    <table>
+        <tr>
+            <td width="40%" align="right"><strong>长尾词：</strong></td>
+            <td class="lt">
+                <input type="text" name="name" value="{$info['name']}">
+            </td>
+        </tr>
+        <tr>
+            <td width="40%" align="right"><strong>位置：</strong></td>
+            <td class="lt">
+                <label class="radio">
+                    <input name="prefix" type="radio" value="0" {if $info['prefix'] == 0}checked="checked"{/if} >前缀
+                </label>
+                <label class="radio">
+                    <input name="prefix" type="radio" value="1" {if $info['prefix'] == 1}checked="checked"{/if}>后缀
+                </label>
+            </td>
+        </tr>
+    </table>
+</form>

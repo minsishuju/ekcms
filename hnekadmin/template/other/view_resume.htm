@@ -1,0 +1,138 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <link rel="shortcut icon" href="favicon.ico" />
+    <link rel="stylesheet" type="text/css" href="{__PUBLIC__}style/bootstrap_min.css" media="all" />
+    <link rel="stylesheet" type="text/css" href="{__PUBLIC__}style/css.css" media="all" />
+    <script type="text/javascript" src="{__PUBLIC__}js/jquery.js" ></script>
+    <script type="text/javascript" src="{__PUBLIC__}js/bootstrap.min.js" ></script>
+    <title>E营销管理系统</title>
+</head>
+<body>
+    <ul class="breadcrumb">
+        <li><a href="javascript:void(0)">首页</a> <span class="divider">&gt;&gt;</span></li>
+        <li><a href="javascript:void(0)">模块管理</a> <span class="divider">&gt;&gt;</span></li>
+        <li><a href="index.php?c=other&a=talent">招聘管理</a> <span class="divider">&gt;&gt;</span></li>
+        <li class="active">查看申请 - {$info['job_name']}</li>
+    </ul>
+    <form action="" method="post" class="form-search">
+        <input type="hidden" value="{$info['resume_id']}" name="resume_id">
+        <table class="table table-bordered">
+            <tbody>
+                <tr>
+                    <td width="20%" align="right"><strong>姓名：</strong></td>
+                    <td class="lt">
+                        {$info['name']}
+                    </td>
+                    <td width="20%" align="right"><strong>职位名称：</strong></td>
+                    <td class="lt">
+                        {$info['job_name']}
+                    </td>
+                </tr>
+                <tr>
+                    <td width="20%" align="right"><strong>性别：</strong></td>
+                    <td class="lt">
+                        {if $info['sex'] == 1}男{else/}女{/if}
+                    </td>
+                    <td align="right"><strong>民族：</strong></td>
+                    <td class="lt">
+                        {$info['nation']}
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right"><strong>出生日期：</strong></td>
+                    <td class="lt">
+                        {$info['birthday']}
+                    </td>
+                    <td align="right"><strong>民族：</strong></td>
+                    <td class="lt">
+                        {$info['birthplace']}
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right"><strong>家庭住址：</strong></td>
+                    <td class="lt">
+                        {$info['home_address']}
+                    </td>
+                    <td align="right"><strong>现居地：</strong></td>
+                    <td class="lt">
+                        {$info['address']}
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right"><strong>QQ：</strong></td>
+                    <td class="lt">
+                        {$info['qq']}
+                    </td>
+                    <td align="right"><strong>微信：</strong></td>
+                    <td class="lt">
+                        {$info['wechar']}
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right"><strong>联系电话：</strong></td>
+                    <td class="lt">
+                        {$info['tel']}
+                    </td>
+                    <td align="right"><strong>婚姻状况：</strong></td>
+                    <td class="lt">
+                        {$info['marital']}
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right"><strong>学历：</strong></td>
+                    <td class="lt">
+                        {$info['degree']}
+                    </td>
+                    <td align="right"><strong>毕业学校：</strong></td>
+                    <td class="lt">
+                        {$info['school']}
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right"><strong>专业：</strong></td>
+                    <td class="lt">
+                        {$info['discipline']}
+                    </td>
+                    <td align="right"><strong>毕业时间：</strong></td>
+                    <td class="lt">
+                        {$info['graduation_time']}
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right"><strong>工作/教育经历：</strong></td>
+                    <td class="lt" colspan="3">
+                        {$info['experience']}
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right"><strong>个人自述：</strong></td>
+                    <td class="lt" colspan="3">
+                        {$info['readme']}
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right"><strong>备注：</strong></td>
+                    <td class="lt" colspan="3">
+                        <textarea name="mark" style="width:300px;height:150px;">{$info['mark']}</textarea>
+                    </td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="4" class="text-center">
+                        <input class="btn btn-primary" type="submit" value="保 存" />
+                        <input class="btn btn-warning" type="button" onclick="javascript:history.back(-1);" value="返 回" />
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </form>
+</body>
+</html>
+

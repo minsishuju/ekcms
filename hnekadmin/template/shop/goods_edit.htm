@@ -1,0 +1,251 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <link rel="shortcut icon" href="favicon.ico" />
+    <link rel="stylesheet" href="{__PUBLIC__}kindeditor/themes/default/default.css" />
+    <link rel="stylesheet" type="text/css" href="{__PUBLIC__}style/bootstrap_min.css" media="all" />
+    <link rel="stylesheet" type="text/css" href="{__PUBLIC__}style/css.css" media="all" />
+    <script type="text/javascript" src="{__PUBLIC__}js/jquery.js" ></script>
+    <script type="text/javascript" src="{__PUBLIC__}js/bootstrap.min.js" ></script>
+    <script type="text/javascript" src="{__PUBLIC__}kindeditor/kindeditor-all-min.js" ></script>
+    <script type="text/javascript" src="{__PUBLIC__}kindeditor/lang/zh_CN.js"></script>
+    <script type="text/javascript">
+        var editor;
+        KindEditor.ready(function(K) {
+            editor = K.create('textarea[name="content"]', {
+                width:1200,
+                height:600,
+                uploadJson:'index.php?c=Common&a=editor',
+                allowFileManager : true,
+                fileManagerJson: "index.php?c=Common&a=manager",
+                urlType : '',
+                formatUploadUrl:false,
+                loadStyleMode : false
+            });
+        });
+    </script>
+    <title>E营销管理系统</title>
+</head>
+<body>
+    <ul class="breadcrumb">
+        <li><a href="javascript:void(0)">首页</a> <span class="divider">&gt;&gt;</span></li>
+        <li><a href="javascript:void(0)">商城管理</a> <span class="divider">&gt;&gt;</span></li>
+        <li><a href="javascript:void(0)">商品管理</a> <span class="divider">&gt;&gt;</span></li>
+        <li class="active">编辑商品</li>
+        <li class="pull-right" style="margin-top:-3px">
+            <a class="btn btn-small btn-primary pull-right" href="index.php?c=shop&a=goods">返回列表</a>
+        </li>
+    </ul>
+    <form action="" method="post" class="form-search">
+        <input name="goods_id" type="hidden" value="{$info['goods_id']}">
+        <table class="table table-bordered">
+            <tbody>
+                <tr>
+                    <td align="right"><strong>商品分类：</strong></td>
+                    <td>
+                        <select name="category_id">
+                            <option value="0">---选择商品分类--</option>
+                            {foreach $category as $vo}
+                            <option value="{$vo['category_id']}" {if $info['category_id'] == $vo['category_id']}selected="selected"{/if} >
+                                {$vo['name']}
+                            </option>
+                            {/foreach}
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right"><strong>商品名称：</strong></td>
+                    <td>
+                        <input type="text" name="name" value="{@iHtmlSpecialChars($info['name'])}" />
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right"><strong>商品价格：</strong></td>
+                    <td>
+                        <input type="text" name="price" value="{@iHtmlSpecialChars($info['price'])}" />
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right"><strong>商品积分：</strong></td>
+                    <td>
+                        <input type="text" name="point" value="{@iHtmlSpecialChars($info['point'])}" />
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right"><strong>商品主图：</strong></td>
+                    <td>
+                        {if $info['image']}<img width="30" height="30" src="{$info['image']}">{/if}<input type="hidden" name="image" id="image" value="{$info['image']}" /> <input type="button" class="btn btn-primary" id="updateimgbutton" value="选择图片" />
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right"><strong>简介：</strong></td>
+                    <td>
+                        <textarea name="description" placeholder="商品简要描述">{@iHtmlSpecialChars($info['description'])}</textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right"><strong>上架：</strong></td>
+                    <td>
+                        <label class="radio">
+                            <input type="radio" name="shelf" {if $info['shelf'] == 1}checked="checked"{/if} value="1" />是
+                        </label>
+                        <label class="radio">
+                            <input type="radio" name="shelf" {if $info['shelf'] == 0}checked="checked"{/if} value="0" />否
+                        </label>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right"><strong>推荐：</strong></td>
+                    <td>
+                        <label class="radio">
+                            <input type="radio" name="is_pos" {if $info['is_pos'] == 1}checked="checked"{/if} value="1" />是
+                        </label>
+                        <label class="radio">
+                            <input type="radio" name="is_pos" {if $info['is_pos'] == 0}checked="checked"{/if} value="0" />否
+                        </label>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right"><strong>商品属性：</strong></td>
+                    <td >
+                        <ul id="goods_attr" rel="{@count($info['goods_attr'])}">
+                            {foreach $info['goods_attr'] as $key=>$goods_attr}
+                            <li rel="{$key}">
+                                {if $key == 0}
+                                <a href="javascript:void(0)" id="add_attr">[+]</a>
+                                {else/}
+                                <a href="javascript:void(0)" id="delete_attr">[-]</a>
+                                {/if}
+                                名称:<input type="text" name="attr[{$key}][name]" value="{$goods_attr['name']}" >
+                                <ul class="attr" rel="{@count($goods_attr['value'])}">
+                                    {foreach $goods_attr['value'] as $k=>$attr}
+                                    <li>
+                                        {if $k == 0}
+                                        <a href="javascript:void(0)" class="add_attr_value">[+]</a> 
+                                        {else/}
+                                        <a href="javascript:void(0)" class="delete_attr_value">[-]</a> 
+                                        {/if}
+                                        属性值:<input type="text" name="attr[{$key}][value][{$k}][name]" value="{$attr['name']}">
+                                        增加价格:<input type="text" name="attr[{$key}][value][{$k}][price]" value="{$attr['price']}">
+                                    </li>
+                                    {/foreach}
+                                </ul>
+                            </li>
+                            {/foreach}
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right"><strong>商品相册：</strong></td>
+                    <td>
+                        <ul id="album_box">
+                            {foreach $albums as $vo}
+                            <li>
+                                <input type="hidden" name="album[]" value="{$vo['image']}">
+                                <img title="点击删除" src="{$vo['image']}">
+                                <a class="album" href="javascript:void(0)">删除</a>
+                            </li>
+                            {/foreach}
+                            <li><input type="button" class="btn btn-primary" id="album" value="选择图片" /></li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right"><strong>详细介绍：</strong></td>
+                    <td >
+                        <textarea name="content" >{@iHtmlSpecialChars($info['content'])}</textarea>
+                    </td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="2" class="text-center">
+                        <input class="btn btn-primary" type="submit" value="保 存" />
+                        <input class="btn btn-warning" type="button" onclick="javascript:history.back(-1);" value="返 回" />
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </form>
+    <div id="updateimg" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3 id="myModalLabel">上传图片</h3>
+        </div>
+        <div class="modal-body">
+            <p style="text-algin:center">loadding......</p>
+        </div>
+        <div class="modal-footer">
+            <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+            <button class="btn btn-primary" data-dismiss="modal" id="updateimg_btn" aria-hidden="true">确定</button>
+        </div>
+    </div>
+    <script>
+    var updateimg_type = '';
+    $(function(){
+        $('#album_box').on('click','.album',function(){
+            $(this).parent().remove();
+        });
+        $('#album').click(function(){
+            $('#updateimg').removeData();
+            updateimg_type = 'album';
+            $('#updateimg').modal({
+                remote:'index.php?c=Common&a=uploads&input_id=album'
+            });
+        });
+        $('#updateimg').on('hidden', function () {
+            $(this).removeData();
+        })
+        $('#updateimgbutton').click(function(){
+            $('#updateimg').removeData();
+            updateimg_type = 'image';
+            $('#updateimg').modal({
+                remote:'index.php?c=Common&a=upload'
+            });
+        });
+        $('#updateimg_btn').click(function(){
+            if(updateimg_type == 'image'){
+                var path = $('.tab-pane:visible').find('input[name="image"]').val();
+                $('#image').val(path);
+                $('#image').siblings('img').remove();
+                $('#image').after('<img width="30" height="30" src="'+path+'"> ');
+            }else if(updateimg_type == 'album'){
+                var html = '<li>';
+                $.each($('.tab-pane:visible').find('input[name="album[]"]'),function(index,data){
+                    var html = '<li>';
+                    html += '<input type="hidden" name="album[]" value="'+$(data).val()+'">';
+                    html += '<img title="点击删除" src="'+$(data).val()+'">';
+                    html += '<a class="album" href="javascript:void(0)">删除</a>';
+                    html += '</li>';
+                    $('#album_box').prepend(html);
+                });
+            }
+        });
+        $('#add_attr').click(function(){
+            var attr_num = new Number($('#goods_attr').attr('rel'));
+            var html = '<li rel="'+attr_num+'"><a href="javascript:void(0)" class="delete_attr">[-]</a> 名称:<input type="text" name="attr['+attr_num+'][name]" ><ul class="attr" rel="1"><li><a href="javascript:void(0)" class="add_attr_value">[+]</a>属性值:<input type="text" name="attr['+attr_num+'][value][0][name]" >增加价格:<input type="text" name="attr['+attr_num+'][value][0][price]" ></li></ul></li>';
+            $('#goods_attr').append(html);
+            $('#goods_attr').attr('rel',attr_num + 1);
+        });
+        $('#goods_attr').on('click','.delete_attr',function(){
+            $(this).parent().remove();
+        });
+        $('#goods_attr').on('click','.add_attr_value',function(){
+            var attr_value_num = new Number($(this).parents('.attr').attr('rel'));
+            var attr_num = new Number($(this).parents('.attr').parent('li').attr('rel'));
+            var html = '<li><a href="javascript:void(0)" class="delete_attr_value">[-]</a>属性值:<input type="text" name="attr['+attr_num+'][value]['+attr_value_num+'][name]" >增加价格:<input type="text" name="attr['+attr_num+'][value]['+attr_value_num+'][price]" ></li>';
+            $(this).parents('.attr').append(html);
+            $(this).parents('.attr').attr('rel',attr_value_num + 1);
+        });
+        $('#goods_attr').on('click','.delete_attr_value',function(){
+            $(this).parent().remove();
+        });
+    });
+    </script>
+</body>
+</html>

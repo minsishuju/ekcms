@@ -1,0 +1,78 @@
+<!doctype html>
+
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+
+	<meta name="viewport" content="width=1200">
+
+    <meta name="format-detection" content="telephone=no">
+
+    <title>{if isset($SEO['title']) && !empty($SEO['title'])}{$SEO['title']}{$SEO['name']}{if $city != ''}-{$city}站{/if}{else/}{$SEO['site_title']}{/if}</title>
+
+    <meta name="keywords" content="{$SEO['keyword']}">
+
+    <meta name="description" content="{$SEO['description']}">
+
+    <link rel="stylesheet" type="text/css" href="{__PUBLIC__}css/style.css">
+
+    <link rel="stylesheet" type="text/css" href="{__PUBLIC__}css/lrtk.css" media="all">
+
+	<link rel="stylesheet" type="text/css" href="{__PUBLIC__}css/yx_style.css" media="all">
+
+    <script type="text/javascript" src="{__PUBLIC__}js/jquery-1.12.4.min.js"></script>
+
+    <script type="text/javascript" src="{__PUBLIC__}js/i_ban.js"></script>
+	
+	<link rel='shortcut icon' href='{__PUBLIC__}images/favicon.ico' type='image/x-icon'/>
+</head>
+
+<body>
+
+<div class="n_top" {if empty($CATEGORYS[$category_id][image])}{else/}style="background:url({$CATEGORYS[$category_id][image]}) no-repeat center bottom #2b2b2b;"{/if}>
+
+	<div class="top_n" id="wrap">
+
+        <div class="zw_logo left"><!--<div class="tel">{@config('SITE_INFO.phone')}</div>--><a href="{@config('SITE_INFO.siteurl')}"><img src="{__PUBLIC__}images/logo.png"></a></div>
+
+        <div class="nav right" id="main_nav">
+
+            <ul>
+
+                <li><a href="{@config('SITE_INFO.siteurl')}">首 页</a></li>
+
+                {content action="category" category_id="0" num="4" return="data"}
+
+                {loop $data $v}
+
+                <li><a href="{$v[url]}">{$v[name]}</a>
+                	{content action="category" category_id="$v['category_id']" num="8" return="data1"}
+		  {if $data1 != ""}
+			<ul>
+			{loop $data1 $s}
+			  <li><a href="{$s['url']}">{$s['name']}</a></li>
+			{/loop}
+			</ul>
+			{/if}
+		{/content}
+                </li>
+
+                {/loop}
+
+                {/content}
+
+            </ul>
+
+            <div class="clearit"></div>
+
+        </div>
+
+    </div>
+
+   
+
+    <!--{if $category_id == 0}<div class="shin"><img src="{__PUBLIC__}images/shin.png"></div>{/if}-->
+
+</div>

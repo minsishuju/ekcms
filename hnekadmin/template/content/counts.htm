@@ -1,0 +1,68 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <link rel="shortcut icon" href="favicon.ico" />
+        <link rel="stylesheet" type="text/css" href="{__PUBLIC__}style/bootstrap_min.css" media="all" />
+        <link rel="stylesheet" type="text/css" href="{__PUBLIC__}style/css.css" media="all" />
+        <script src="{__PUBLIC__}js/jquery.js"></script>
+        <script type="text/javascript" src="{__PUBLIC__}js/bootstrap.min.js" ></script>
+        <title>E营销管理系统</title>
+    </head>
+    <body>
+        <ul class="breadcrumb">
+            <li><a href="javascript:void(0)">首页</a> <span class="divider">&gt;&gt;</span></li>
+            <li><a href="javascript:void(0)">内容管理</a> <span class="divider">&gt;&gt;</span></li>
+            <li class="active">数据统计</li>
+        </ul>
+        <table width="100%" border="0" cellspacing="0" cellpadding="0" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th colspan="9">共计{$total}条数据，昨天新增{$yesterday}条数据，前天新增{$day_before}条数据，大前天新增{$before_that}条数据。</th>
+                </tr>
+                <tr>
+                    <th width="150">栏目名称</th>
+                    <th width="100">栏目类型</th>
+                    <th width="150">数据量（今日新增{$today}）</th>
+                    <th width="150">导航显示</th>
+                    <th width="100">管理操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                {foreach $list as $vo}
+                <tr>
+                    <td>
+                        {for $i=1;$i<$vo['stort'];$i++}
+                        &nbsp;&nbsp;&nbsp;
+                        {/for}
+                        {if $vo['parent_id'] != 0}
+                        |--
+                        {/if}
+                        {$vo['name']}
+                    </td>
+                    <td align='center'>{if $vo['type_id'] == 1}文章{elseif $vo['type_id'] == 2}图集{elseif $vo['type_id'] == 3}单页{elseif $vo['type_id'] == 4}链接{/if}</td>
+                    <td align='center'>
+                        {if $vo['type_id'] != 4 && !$vo['child'] && $vo['type_id'] != 3}
+                        {@intval($vo['num'])}（{@intval($vo['num_y'])}）
+                        {/if}
+                    </td>
+                    <td align='center'>{if $vo['is_show'] == 1}√{else/}X{/if}</td>
+                    <td align='center'>
+                        {if $vo['type_id'] == 4 || ($vo['child'] && $vo['type_id'] != 3)}
+                        <a href="javascript:void(0);">
+                        {else/}
+                        <a href="index.php?c=content&a=lists&id={$vo['category_id']}" target="mainFrame">
+                        {/if}
+                            内容管理
+                        </a>
+                    </td>
+                </tr>
+                {/foreach}
+            </tbody>
+        </table>
+    </body>
+</html>

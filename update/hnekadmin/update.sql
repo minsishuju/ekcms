@@ -1,0 +1,11 @@
+ALTER TABLE `cmsx_site` ADD `qq` varchar(50)  NULL COMMENT '在线qq' AFTER `pass_time`;
+ALTER TABLE `cmsx_site` ADD `telphone` varchar(50)  NULL COMMENT '联系电话' AFTER `qq`;
+ALTER TABLE `cmsx_site` ADD `address` text  NULL COMMENT '地址' AFTER `telphone`;
+ALTER TABLE `cmsx_site` ADD `icp` varchar(50)  NULL COMMENT '备案号' AFTER `address`;
+ALTER TABLE `cmsx_site` ADD `email` varchar(80)  NULL COMMENT '邮箱' AFTER `icp`;
+ALTER TABLE `cmsx_site` ADD `fax` varchar(30)  NULL COMMENT '传真' AFTER `email`;
+ALTER TABLE `cmsx_site` ADD `mb_site_code` text  NULL COMMENT '' AFTER `fax`;
+ALTER TABLE `cmsx_site` ADD `mb_address` text  NULL COMMENT '' AFTER `mb_site_code`;
+ALTER TABLE `cmsx_site` ADD `guard` tinyint(1)  NULL DEFAULT '1' COMMENT '防护开关' AFTER `mb_address`;
+ALTER TABLE `cmsx_site` ADD `white_list` text NOT NULL COMMENT '白名单' AFTER `guard`;
+update `cmsx_site` set `white_list`='bd_vid,ivk,search';

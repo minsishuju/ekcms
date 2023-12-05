@@ -1,0 +1,145 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <link rel="shortcut icon" href="favicon.ico" />
+        <link rel="stylesheet" type="text/css" href="{__PUBLIC__}style/bootstrap_min.css" media="all" />
+        <link rel="stylesheet" type="text/css" href="{__PUBLIC__}style/css.css" media="all" />
+        <script src="{__PUBLIC__}js/jquery.js"></script>
+        <script src="{__PUBLIC__}js/bootstrap.min.js"></script>
+        <title>E营销管理系统</title>
+    </head>
+    <body>
+        <ul class="breadcrumb">
+            <li><a href="javascript:void(0)">首页</a> <span class="divider">&gt;&gt;</span></li>
+            <li><a href="javascript:void(0)">商城管理</a> <span class="divider">&gt;&gt;</span></li>
+            <li><a href="javascript:void(0)">订单管理</a> <span class="divider">&gt;&gt;</span></li>
+            <li class="active">订单详情</li>
+        </ul>
+    </div>
+    <form action="" method="post" class="form-search">
+        <input name="orders_id" value="{$orders['orders_id']}" type="hidden">
+        <table class="table table-bordered">
+            <tbody>
+                <tr>
+                    <th colspan="2" ><strong>订单详情</strong></th>
+                </tr>
+                <tr>
+                    <td align="right"><strong>订单号：</strong></td>
+                    <td>
+                        {$orders['trade_no']}
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right"><strong>下单时间：</strong></td>
+                    <td>
+                        {@date('Y-m-d H:i:s',$orders['add_time'])}
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right"><strong>订单金额：</strong></td>
+                    <td>
+                        原价：￥{$orders['original_price']}元 &nbsp;&nbsp;&nbsp;&nbsp;
+                        积分抵扣：￥{$orders['point_price']}元 &nbsp;&nbsp;&nbsp;&nbsp;
+                        现价：￥{$orders['price']}元 &nbsp;&nbsp;&nbsp;&nbsp;
+                        优惠金额：<input name="change_price" value="{$orders['change_price']}" type="text">
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right"><strong>订单状态：</strong></td>
+                    <td>
+                        <label class="radio"><input name="status" type="radio" {if $orders['status'] == 0}checked="checked"{/if} value="0" >未付款</label>
+                        <label class="radio"><input name="status" type="radio" {if $orders['status'] == 1}checked="checked"{/if} value="1" >已付款</label>
+                        <label class="radio"><input name="status" type="radio" {if $orders['status'] == 2}checked="checked"{/if} value="2" >已发货</label>
+                        <label class="radio"><input name="status" type="radio" {if $orders['status'] == 3}checked="checked"{/if} value="3" >已完成</label>
+                    </td>
+                </tr>
+                <td colspan="2" class="text-center">
+                        <input class="btn btn-primary" type="submit" value="保 存" />
+                    </td>
+                <tbody>
+            </table>
+        </form>
+        <table class="table table-bordered">
+            <tbody>
+            <tr>
+                <th colspan="5" ><strong>商品列表</strong></th>
+            </tr>
+            <tr>
+                <td>商品名称</th>
+                <td colspan="2">属性</th>
+                <td>购买数量</th>
+                <td>小计</th>
+            </tr>
+            {foreach $order_goods as $goods}
+                {if $goods['is_package'] == 0}
+                <tr>
+                    <td >
+                        <a target="_blank" href="/index.php?c=shop&a=show&id={$goods['goods_id']}">{$goods['goods_name']}</a>
+                    </td>
+                    <td colspan="2">
+                        {$goods['goods_attr']}
+                    </td>
+                    <td >
+                        {$goods['goods_num']}
+                    </td>
+                    <td >￥{$goods['price']}元</td>
+                </tr>
+                    {if $goods['goods_type'] == 1}
+                        {foreach $order_goods as $val}
+                            {if $val['is_package'] == 1 and $val['package_id'] == $goods['goods_id']}
+                <tr>
+                    <td >
+                        &nbsp;
+                    </td>
+                    <td >
+                        <a target="_blank" href="/index.php?c=shop&a=show&id={$val['goods_id']}">{$val['goods_name']}</a>
+                    </td>
+                    <td >
+                        {$val['goods_attr']}
+                    </td>
+                    <td >
+                        {$val['goods_num']}
+                    </td>
+                    <td >&nbsp;</td>
+                </tr>
+                            {/if}
+                        {/foreach}
+                    {/if}
+                {/if}
+            {/foreach}
+            </tbody>
+        </table>
+        <table class="table table-bordered">
+            <tbody>
+                <tr>
+                    <th colspan="4" ><strong>收货人信息</strong></th>
+                </tr>
+                <tr>
+                    <td>姓名</th>
+                    <td>地址</th>
+                    <td>邮编</th>
+                    <td>电话</th>
+                </tr>
+                <tr>
+                    <td >
+                        {$orders['nickname']}</a>
+                    </td>
+                    <td >
+                        {$orders['address']}
+                    </td>
+                    <td >
+                        {$orders['postcode']}
+                    </td>
+                    <td >
+                        {$orders['phone']}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </body>
+</html>

@@ -1,0 +1,39 @@
+core 文件夹 作用
+
+对前端用户访问的url请求进行正则验证，拦截危险请求，并给与提示
+（提示模板文件在 core\template\intercept.html 可以自行修改提示文字）
+
+hnekadmin 文件夹 作用
+
+hnekadmin\template\common 中文件 是替换原来的flash上传组件
+
+hnekadmin\controller 中文件是对接百度编辑组件的类文件
+hnekadmin\common 中文件是 百度编辑器的配置文件和上传文件处理类
+hnekadmin\template\content  中文件 是替换了原来页面中的编辑器（切勿直接覆盖，不同版本可能会有差异）
+hnekadmin\static 中为百度编辑器增强版的组件，原来的 kindeditor 文件夹可以删除了。
+
+/hnekadmin/controller/IndexController.php  site_edit() 函数 增加了防护的两个字段
+/hnekadmin/template/index/site_edit.html 增加了响应的输入框
+
+防护拦截功能，增加了白名单功能，需要修改 数据表 和站点修改页面的控制和模板
+/core/common/safeguard.php   新增
+/core/functions/function.php  修改
+
+
+数据库语句  cmsx_site 表增加字段 status
+ALTER TABLE `cmsx_site` ADD `qq` varchar(50) NOT NULL COMMENT '在线qq' AFTER `pass_time`;
+ALTER TABLE `cmsx_site` ADD `telphone` varchar(50) NOT NULL COMMENT '联系电话' AFTER `qq`;
+ALTER TABLE `cmsx_site` ADD `address` text NOT NULL COMMENT '地址' AFTER `telphone`;
+ALTER TABLE `cmsx_site` ADD `icp` varchar(50) NOT NULL COMMENT '备案号' AFTER `address`;
+ALTER TABLE `cmsx_site` ADD `email` varchar(80) NOT NULL COMMENT '邮箱' AFTER `icp`;
+ALTER TABLE `cmsx_site` ADD `fax` varchar(30) NOT NULL COMMENT '传真' AFTER `email`;
+ALTER TABLE `cmsx_site` ADD `mb_site_code` text NOT NULL COMMENT '' AFTER `fax`;
+ALTER TABLE `cmsx_site` ADD `mb_address` text NOT NULL COMMENT '' AFTER `mb_site_code`;
+ALTER TABLE `cmsx_site` ADD `guard` tinyint(1)  NULL DEFAULT '1' COMMENT '防护开关' AFTER `mb_address`;
+ALTER TABLE `cmsx_site` ADD `white_list` text NOT NULL COMMENT '白名单' AFTER `guard`;
+update `cmsx_site` set `white_list`='bd_vid,ivk,search';
+
+
+
+
+

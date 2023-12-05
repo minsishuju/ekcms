@@ -1,0 +1,107 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <link rel="shortcut icon" href="favicon.ico" />
+        <link rel="stylesheet" type="text/css" href="{__PUBLIC__}style/bootstrap_min.css" media="all" />
+        <link rel="stylesheet" type="text/css" href="{__PUBLIC__}style/css.css" media="all" />
+        <script src="{__PUBLIC__}js/jquery.js"></script>
+        <script type="text/javascript" src="{__PUBLIC__}js/bootstrap.min.js" ></script>
+        <title>E营销管理系统</title>
+    </head>
+    <body>
+        <ul class="breadcrumb">
+            <li><a href="javascript:void(0)">首页</a> <span class="divider">&gt;&gt;</span></li>
+            <li><a href="javascript:void(0)">内容管理</a> <span class="divider">&gt;&gt;</span></li>
+            <li><a href="javascript:void(0)">模型管理</a> <span class="divider">&gt;&gt;</span></li>
+            <li class="active">{$model['name']}字段管理</li>
+            <li class="pull-right" style="margin-top:-3px">
+                <a class="btn btn-small btn-primary pull-right" href="index.php?c=content&a=model">返回</a>
+                <a class="btn btn-small btn-primary pull-right" style="margin-right:5px" href="javascript:void(0);" data-model_id="{$model['model_id']}" id="add_field">添加字段</a>
+            </li>
+        </ul>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th width="5%">ID</th>
+                    <th width="20%">字段名</th>
+                    <th width="30%">别名</th>
+                    <th width="30%">类型</th>
+                    <th width="15%">管理操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                {foreach $list as $vo}
+                <tr>
+                    <td align='center'>{$vo['field_id']}</td>
+                    <td >{$vo['field']}</td>
+                    <td >{$vo['name']}</td>
+                    <td >
+                        {if $vo['type'] == 'text'}
+                        单行文本
+                        {elseif $vo['type'] == 'textarea'}
+                        多行文本
+                        {elseif $vo['type'] == 'editor'}
+                        编辑器
+                        {elseif $vo['type'] == 'image'}
+                        图片
+                        {/if}
+                    </td>
+                    <td align='center'>
+                        <a class="edit_field" href="javascript:void(0)" data-field_id="{$vo['field_id']}">修改</a> | 
+                        <a href="javascript:void(0)" onclick="return confirmurl('index.php?c=content&a=delete_field&id={$vo['field_id']}','确定删除字段“{$vo['name']}”及其数据么?此操作不可恢复')">删除</a>
+                    </td>
+                </tr>
+                {/foreach}
+            </tbody>
+        </table>
+        <div id="modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h3 id="myModalLabel"></h3>
+            </div>
+            <div class="modal-body">
+                <p style="text-algin:center">loadding......</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+                <button class="btn btn-primary" id="modal_submit" data-dismiss="modal" aria-hidden="true">确定</button>
+            </div>
+        </div>
+        <script>
+            $(function(){
+                $('#add_field').click(function(){
+                    var model_id = $(this).data('model_id');
+                    $('#myModalLabel').html('添加字段');
+                    $('#modal').removeData();
+                    $('#modal').modal({
+                        remote:'index.php?c=content&a=add_field&model_id='+model_id
+                    });
+                });
+                $('.edit_field').click(function(){
+                    $('#myModalLabel').html('修改字段');
+                    var field_id = $(this).data('field_id');
+                    $('#modal').removeData();
+                    $('#modal').modal({
+                        remote:'index.php?c=content&a=edit_field&id='+field_id
+                    });
+                });
+                $('#modal').on('hidden', function () {
+                    $(this).removeData();
+                })
+                $('#modal_submit').click(function(){
+                    $('#modal_form').submit();
+                });
+            });
+            function confirmurl(url,message){
+                if(confirm(message)){
+                    location.replace(url);
+                }
+            }
+        </script>
+    </body>
+</html>

@@ -1,0 +1,71 @@
+{template index/header}
+
+
+
+<div class="caer_t">
+
+    <ul>
+
+        <li><a href="{$CATEGORYS[2][url]}">全部作品</a></li>
+
+        {content action="category" category_id="2" num="8" return="data"}
+
+        {loop $data $v}
+
+        <li><a href="{$v[url]}">{$v[name]}</a></li>
+
+        {/loop}
+
+        {/content}
+
+    </ul>
+
+    <div class="clearit"></div>
+
+</div>
+
+{content action="lists" category_id="$category_id" num="20" page="$page" moreinfo="1"}
+
+<div class="caes_c">
+
+    <ul>
+
+        {loop $data $k $v}
+
+        <li class="view second-effect"><img src="{@thumb($v[image],628,628)}">
+			<a href="{$v[url]}" target="_blank">
+        	<div class="mask">
+            
+
+							<samp class="info">Image</samp>
+
+                            <div class="w_wz">{$CATEGORYS[$v[category_id]][name]}</div>
+
+           				 	<p>{$v[title]}</p>
+
+			</div>
+            </a>
+
+            <!--<div class="caes_hh ">
+
+                <div class="w_wz">{$CATEGORYS[$v[category_id]][name]}</div>
+
+                <div class="w_wz1">{$v[title]}</div>
+
+            </div>-->
+
+        </li>
+
+        {/loop}
+
+    </ul>
+
+    <div class="clearit"></div>
+
+</div>
+
+<div class="n_more"><div class="pages">{$pages}</div></div>
+
+{/content}
+
+{template index/footer}

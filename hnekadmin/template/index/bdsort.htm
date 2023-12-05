@@ -1,0 +1,191 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <link rel="shortcut icon" href="favicon.ico" />
+    <link rel="stylesheet" type="text/css" href="{__PUBLIC__}style/bootstrap_min.css" media="all" />
+    <link rel="stylesheet" type="text/css" href="{__PUBLIC__}style/css.css" media="all" />
+    <script type="text/javascript" src="{__PUBLIC__}js/jquery.js"></script>
+    <title>E营销管理系统</title>
+</head>
+<body>
+    <ul class="breadcrumb">
+        <li><a href="javascript:void(0)">首页</a> <span class="divider">&gt;&gt;</span></li>
+        <li><a href="javascript:void(0)">系统首页</a> <span class="divider">&gt;&gt;</span></li>
+        <li class="active">排名查询</li>
+        <li class="pull-right" style="margin-top:-3px">
+            <a class="btn btn-small btn-primary pull-right" href="javascript:void(0);" id="get_all_sort">一键查询</a>
+        </li>
+    </ul>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th width="30%">关键词</th>
+                <th width="15%">百度排名</th>
+                <th width="15%">百度移动排名</th>
+                <th width="15%">360排名</th>
+                <th width="15%">搜狗排名</th>
+                <th width="10%">操作</th>
+            </tr>
+            <tr>
+                <td align='center' colspan="6">
+                    关键词总计{@count($keywords)}个，其中查询结果共有{$true_num}个，
+                    百度搜索排名前20有<span id="bdsortnum">{$bdsortnum}</span>个，
+                    百度移动搜索排名前20有<span id="mbdsortnum">{$mbdsortnum}</span>个。
+                    360搜索排名前20有<span id="lmsortnum">{$lmsortnum}</span>个，
+                    搜狗搜索排名前20有<span id="sgsortnum">{$sgsortnum}</span>个
+                </td>
+            </tr>
+        </thead>
+        <tbody>
+            {foreach $keywords as $key=>$vo}
+            <tr id="key{$key}" class="keyword">
+                <td align='center' >
+                    {@iHtmlSpecialChars($vo[name])}
+                </td>
+                <td align='center' class="bd">
+                    {if $vo['info']['bd'] && $vo['info']['bd'] !='重试'}
+                        {$vo['info']['bd']}
+                        {if $vo['info']['bd_sort']}
+                        <img src="{__PUBLIC__}images/{$vo['info']['bd_sort']}.png" >
+                        {/if}
+                    {else/}
+                    --
+                    {/if}
+                </td>
+                <td align='center' class="mbd">
+                    {if $vo['info']['mbd'] && $vo['info']['mbd'] !='重试'}
+                        {$vo['info']['mbd']}
+                        {if $vo['info']['mbd_sort']}
+                        <img src="{__PUBLIC__}images/{$vo['info']['mbd_sort']}.png" >
+                        {/if}
+                    {else/}
+                        --
+                    {/if}
+                </td>
+                <td align='center' class="lm">
+                    {if $vo['info']['lm'] && $vo['info']['lm'] !='重试'}
+                        {$vo['info']['lm']}
+                        {if $vo['info']['lm_sort']}
+                        <img src="{__PUBLIC__}images/{$vo['info']['lm_sort']}.png" >
+                        {/if}
+                    {else/}
+                        --
+                    {/if}
+                </td>
+                <td align='center' class="sg">
+                    {if $vo['info']['sg'] && $vo['info']['sg'] !='重试'}
+                        {$vo['info']['sg']}
+                        {if $vo['info']['sg_sort']}
+                        <img src="{__PUBLIC__}images/{$vo['info']['sg_sort']}.png" >
+                        {/if}
+                    {else/}
+                        --
+                    {/if}
+                </td>
+                <td align='center'><a href="javascript:void(0)" class="getsort" data-num="{$key}" data-name="{@iHtmlSpecialChars($vo[name])}">查询</a></td>
+            </tr>
+            {/foreach}
+        </tbody>
+    </table>
+    <script>
+    $(function(){
+        var nth;
+        var total = {@count($keywords)};
+        $('#get_all_sort').click(function(){
+            $('#bdsortnum').html('0');
+            $('#mbdsortnum').html('0');
+            $('#lmsortnum').html('0');
+            $('#sgsortnum').html('0');
+            nth = 2;
+            for(var i = 0; i < nth; i++){
+                getsort(i);
+            }
+        });
+        function getsort(id){
+            var _this = $('.keyword').eq(id).find('td:last a');
+            var name = $(_this).data('name');
+            var num = $(_this).data('num');
+            $('#key'+num).find('.bd').html('<img src="{__PUBLIC__}images/spinner.gif">');
+            $('#key'+num).find('.mbd').html('<img src="{__PUBLIC__}images/spinner.gif">');
+            $('#key'+num).find('.lm').html('<img src="{__PUBLIC__}images/spinner.gif">');
+            $('#key'+num).find('.sg').html('<img src="{__PUBLIC__}images/spinner.gif">');
+            $.ajax({
+                url:'index.php?c=index&a=getsort&num=' + num + '&name=' + name,
+                dataType:'json',
+                success:function(data){
+                    var bd_html = data.bd;
+                    if(data.bd_sort){
+                        bd_html += '<img src="{__PUBLIC__}images/' + data.bd_sort + '.png">';
+                    }
+                    $('#key'+data.num).find('.bd').html(bd_html);
+                    var mbd_html = data.mbd;
+                    if(data.mbd_sort){
+                        mbd_html += '<img src="{__PUBLIC__}images/' + data.mbd_sort + '.png">';
+                    }
+                    $('#key'+data.num).find('.mbd').html(mbd_html);
+                    var lm_html = data.lm;
+                    if(data.lm_sort){
+                        lm_html += '<img src="{__PUBLIC__}images/' + data.lm_sort + '.png">';
+                    }
+                    $('#key'+data.num).find('.lm').html(lm_html);
+                    var sg_html = data.sg;
+                    if(data.sg_sort){
+                        sg_html += '<img src="{__PUBLIC__}images/' + data.sg_sort + '.png">';
+                    }
+                    $('#key'+data.num).find('.sg').html(sg_html);
+                    if(data.bd <= 20){
+                       var bd_sort_num = new Number($('#bdsortnum').html()) + 1;
+                       $('#bdsortnum').html(bd_sort_num);
+                    }
+                    if(data.mbd <= 20){
+                       var mbd_sort_num = new Number($('#mbdsortnum').html()) + 1;
+                       $('#mbdsortnum').html(mbd_sort_num);
+                    }
+                    if(data.lm <= 20){
+                       var lm_sort_num = new Number($('#lmsortnum').html()) + 1;
+                       $('#lmsortnum').html(lm_sort_num);
+                    }
+                    if(data.sg <= 20){
+                       var sg_sort_num = new Number($('#sgsortnum').html()) + 1;
+                       $('#sgsortnum').html(sg_sort_num);
+                    }
+                    if(nth < total){
+                        getsort(nth);
+                        nth++;
+                    }
+                },
+                error:function(data){
+                    if(nth < total){
+                        getsort(nth);
+                        nth++;
+                    }
+                }
+            });
+        }
+        $('.getsort').click(function(){
+            var name = $(this).data('name');
+            var num = $(this).data('num');
+            $('#key'+num).find('.bd').html('<img src="{__PUBLIC__}images/spinner.gif">');
+            $('#key'+num).find('.mbd').html('<img src="{__PUBLIC__}images/spinner.gif">');
+            $('#key'+num).find('.lm').html('<img src="{__PUBLIC__}images/spinner.gif">');
+            $('#key'+num).find('.sg').html('<img src="{__PUBLIC__}images/spinner.gif">');
+            $.ajax({
+                url:'index.php?c=index&a=getsort&num=' + num + '&name=' + name,
+                dataType:'json',
+                success:function(data){
+                    $('#key'+data.num).find('.bd').html(data.bd);
+                    $('#key'+data.num).find('.mbd').html(data.mbd);
+                    $('#key'+data.num).find('.lm').html(data.lm);
+                    $('#key'+data.num).find('.sg').html(data.sg);
+                }
+            });
+        });
+    });
+    </script>
+</body>
+</html>

@@ -1,0 +1,23 @@
+{template index/header}
+<div class="cen">
+    <div class="center_t mc"><img src="{__PUBLIC__}images/center_t_y.jpg"></div>
+    <div class="cte zw mc">
+        <div class="cte_l left">
+            固话：0371-6586 1326<br>手机：138 3818 8615<br>QQ:3550126512 2843971688<br>郑州市中州大道晨旭路瑞银大厦23楼
+        </div>
+        <div class="cte_r rigth">
+            <form action="{@config('SITE_INFO.siteurl')}index.php?c=guestbook&a=add" method="post" name="myform" id="myform">
+                <div class="cte_r1 left">
+                    <input class="kkl" placeholder="姓名" name="name" type="text">
+                    <input placeholder="电话" class="kkl" name="tel" type="text">
+                    <input placeholder="邮箱" class="kkl" name="email" type="text">
+                    <input placeholder="公司名称" class="kkl" name="address" type="text">
+                </div>
+                <div class="cte_r2 left"><textarea placeholder="留言内容" rows="10" cols="30" name="introduce" class="kk2"></textarea></div>
+                <div class="cte_r3 right"><input name="" type="submit" style=" color:#fff;" value="发送"></div>
+            </form>
+        </div>
+        <div class="clearit"></div>
+    </div>
+</div>
+{template index/footer}

@@ -1,0 +1,36 @@
+<form action="index.php?c=content&a=move" method="post" id="content_form" class="form-inline">
+<input name="category_id" type="hidden" value="{$info['category_id']}">
+<table class="table table-bordered">
+    <tbody>
+        <tr>
+            <td>指定来源</td>
+            <td>{$info['name']}</td>
+        </tr>
+        <tr>
+            <td>目标栏目</td>
+            <td >
+                <select name="to_category_id" class="input-small">
+                {foreach $list as $vo}
+                    <option value="{$vo['category_id']}" {if $vo['type_id'] != $info['type_id'] || $vo['model_id'] != $info['model_id'] || $vo['type_id'] == 4 || $vo['type_id'] == 3 || $vo['child']}disabled="disabled"{/if}>
+                        {for $i=1;$i<$vo['stort'];$i++}
+                        &nbsp;&nbsp;&nbsp;
+                        {/for}
+                        {if $vo['parent_id'] != 0}
+                        |--
+                        {/if}
+                        {$vo['name']}
+                    </option>
+                {/foreach}
+                </select>
+            </td>
+        </tr>
+    </tbody>
+    <tfoot>
+        <tr>
+            <td class="text-center" colspan="2">
+                <input type="submit" value="确 定" class="btn btn-primary">
+            </td>
+        </tr>
+    </tfoot>
+</table>
+</form>

@@ -1,0 +1,161 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <link rel="shortcut icon" href="favicon.ico" />
+    <link rel="stylesheet" type="text/css" href="{__PUBLIC__}style/bootstrap_min.css" media="all" />
+    <link rel="stylesheet" type="text/css" href="{__PUBLIC__}style/css.css" media="all" />
+    <script type="text/javascript" src="{__PUBLIC__}js/jquery.js" ></script>
+    <script type="text/javascript" src="{__PUBLIC__}js/bootstrap.min.js" ></script>
+    <title>E营销管理系统</title>
+</head>
+<body>
+    <ul class="breadcrumb">
+        <li><a href="javascript:void(0)">首页</a> <span class="divider">&gt;&gt;</span></li>
+        <li><a href="javascript:void(0)">微信管理</a> <span class="divider">&gt;&gt;</span></li>
+        <li class="active">微信菜单设置</li>
+        <li style="margin-top:-3px" class="pull-right">
+            <a href="index.php?c=wechar&a=menu_create" class="btn btn-small btn-primary pull-right">同步到微信</a>
+        </li>
+        <li style="margin:-3px 20px 0 0" class="pull-right">
+            <a href="javascript:void(0);" id="add_menu" class="btn btn-small btn-primary pull-right">添加菜单</a>
+        </li>
+    </ul>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th width="5%">排序</th>
+                <th>菜单名称</th>
+                <th>菜单类型</th>
+                <th>菜单内容</th>
+                <th width="10%">操作</th>
+            </tr>
+        </thead>
+        <tbody>
+        {loop $list $vo}
+            {if $vo['parent_id'] == 0}
+            <tr>
+                <td align="center"><span  class="listorders" data-menu_id="{$vo['menu_id']}">{$vo['listorder']}</span></td>
+                <td>{$vo['name']}</td>
+                <td>
+                    {if $vo['data_type'] == 0}
+                    一级菜单
+                    {elseif $vo['data_type'] == 1}
+                    图文消息
+                    {elseif $vo['data_type'] == 2}
+                    跳转链接
+                    {/if}
+                </td>
+                <td>
+                    {$vo['data']}
+                </td>
+                <td align="center">
+                    <a href="javascript:void(0);" class="edit_menu" data-menu="{$vo['menu_id']}">修改</a> | 
+                    <a href="javascript:void(0)" onclick="return confirmurl('index.php?c=wechar&a=delete_menu&id={$vo['menu_id']}','确定删除该条素材吗?')">删除</a>
+                </td>
+            </tr>
+            {/if}
+            {loop $list $val}
+                {if $val['parent_id'] == $vo['menu_id']}
+            <tr>
+                <td align="center"><span  class="listorders" data-menu_id="{$val['menu_id']}">{$val['listorder']}</span></td>
+                <td>|--{$val['name']}</td>
+                <td>
+                    {if $val['data_type'] == 0}
+                    文字消息
+                    {elseif $val['data_type'] == 1}
+                    图文消息
+                    {elseif $val['data_type'] == 2}
+                    跳转链接
+                    {/if}
+                </td>
+                <td>
+                {$val['data']}
+                </td>
+                <td align="center">
+                    <a href="javascript:void(0);" class="edit_menu" data-menu="{$val['menu_id']}">修改</a> | 
+                    <a href="javascript:void(0)" onclick="return confirmurl('index.php?c=wechar&a=delete_menu&id={$val['menu_id']}','确定删除该菜单吗?')">删除</a>
+                </td>
+            </tr>
+                {/if}
+            {/loop}
+        {/loop}
+        </tbody>
+    </table>
+    <div id="updateimg" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3 id="myModalLabel"></h3>
+        </div>
+        <div class="modal-body">
+            <p style="text-algin:center">loadding......</p>
+        </div>
+        <div class="modal-footer">
+            <button class="btn " data-dismiss="modal" aria-hidden="true">取消</button>
+            <button class="btn btn-primary" data-dismiss="modal" id="modal_submit" aria-hidden="true">确定</button>
+        </div>
+    </div>
+    <script>
+        function confirmurl(url,message){
+            if(confirm(message)){
+                location.replace(url);
+            }
+        }
+        $(function(){
+            $('#add_menu').click(function(){
+                $('#myModalLabel').html('添加菜单');
+                $('#updateimg').modal({
+                    remote:'index.php?c=wechar&a=add_menu'
+                });
+            });
+            $('.edit_menu').click(function(){
+                $('#myModalLabel').html('修改菜单');
+                var menu_id = $(this).data('menu');
+                $('#updateimg').modal({
+                    remote:'index.php?c=wechar&a=edit_menu&id=' + menu_id
+                });
+            });
+             $('#modal_submit').click(function(){
+                $('#modal_form').submit();
+            });
+            $('#updateimg').on('hidden', function () {
+                $(this).removeData();
+            });
+            $('.listorders').click(function(){
+                if($(this).children('input').length > 0){
+                    return false;
+                }else{
+                    $(this).html('<input style="width:15px;" id="listorder' + $(this).data('menu_id') + '" data-original="' + $(this).html() + '" value="' + $(this).html() + '">');
+                    $(this).children('input').focus();
+                    $(this).css({padding:'0'});
+                }
+            });
+            $('.listorders').hover(
+                function(){
+                    $(this).css({background:'#CCCCCC'})
+                },
+                function(){
+                    $(this).css({background:'#FFFFFF'})
+                }
+            );
+            $('.listorders').on('blur','input',function(){
+                var menu_id = $(this).parent().data('menu_id');
+                var listorder = $(this).val();
+                $.post('index.php?c=wechar&a=menu_listorder',{menu_id:menu_id,listorder:listorder},function(data){
+                    $('#listorder'+data.menu_id).parent().css({padding:'0 10px'});
+                    if(data.status == 1){
+                        $('#listorder'+data.menu_id).parent().html(listorder);
+                    }else{
+                        $('#listorder'+data.menu_id).parent().html($('#listorder'+data.menu_id).data('original'));
+                    }
+                });
+                return false;
+            });
+        });
+    </script>
+</body>
+</html>

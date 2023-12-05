@@ -1,0 +1,43 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <link rel="shortcut icon" href="favicon.ico" />
+        <link rel="stylesheet" type="text/css" href="{__PUBLIC__}style/bootstrap_min.css" media="all" />
+        <link rel="stylesheet" type="text/css" href="{__PUBLIC__}style/css.css" media="all" />
+        <script src="{__PUBLIC__}js/echarts.min.js"></script>
+        <title>E营销管理系统</title>
+    </head>
+    <body>
+        <ul class="breadcrumb">
+            <li><a href="javascript:void(0)">首页</a> <span class="divider">&gt;&gt;</span></li>
+            <li><a href="javascript:void(0)">微信管理</a> <span class="divider">&gt;&gt;</span></li>
+            <li class="active">用户来源统计</li>
+        </ul>
+        <div id="main" style="width: 800px;height:600px;margin:auto;"></div>
+        <script type="text/javascript">
+            var myChart = echarts.init(document.getElementById('main'));
+            var option = {
+                title: {
+                    text: '用户来源统计'
+                },
+                center: ['50%', '50%'],
+                series: [{
+                    name: '关注用户数量',
+                    type: 'pie',
+                     
+                    data: [
+                        {loop $qrcode $val}
+                        {value:{$val['num']}, name:'{$val['name']}'},
+                        {/loop}
+                    ]
+                }]
+            };
+            myChart.setOption(option);
+        </script>
+    </body>
+</html>

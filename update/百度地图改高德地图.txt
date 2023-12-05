@@ -1,0 +1,40 @@
+    <style>
+        .amap-marker-label{
+            border: 1px solid #999;
+            width: 260px; height: auto;padding:0 8px;font-size: 14px;
+        }
+        .amap-marker-label .info span{font-size:16px;font-weight:bolder;display:block;padding:10px 0 5px 0;}
+        .amap-marker-label .info p{padding:5px 0;}
+    </style>
+ <script src="//webapi.amap.com/maps?v=2.0&key=552501b0ac8ebc843432601ca09af5aa"></script>
+ <script>
+     var map = new AMap.Map('dituContent', {
+        resizeEnable: true,
+        zoom:17,
+        viewMode: '3D',
+        center: [113.743979, 34.725267],
+        features: ['bg', 'road', 'building', 'point']
+    });
+    
+    var marker = new AMap.Marker({
+        position: map.getCenter(),
+        image: '//a.amap.com/jsapi_demos/static/demo-center/icons/poi-marker-default.png',
+        imageSize: new AMap.Size(135, 40),
+        anchor:'bottom-center',
+        imageOffset: new AMap.Pixel(-9, -3)
+    });
+
+    marker.setMap(map);
+
+    // 设置鼠标划过点标记显示的文字提示
+    marker.setTitle('郑州华之熠广告有限公司');
+
+    // 设置label标签
+    // label默认蓝框白底左上角显示，样式className为：amap-marker-label
+    marker.setLabel({
+        direction:'top',
+        offset: new AMap.Pixel(10, -10),  //设置文本标注偏移量
+        content: "<div class='info'><span>郑州华之熠广告有限公司</span><p>郑州市经开第二大街105-1号华熠之门</p></div>", //设置文本标注内容
+    });
+    
+ </script>

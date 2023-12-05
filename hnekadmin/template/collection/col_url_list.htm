@@ -1,0 +1,55 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <link rel="shortcut icon" href="favicon.ico" />
+        <link rel="stylesheet" type="text/css" href="{__PUBLIC__}style/bootstrap_min.css" media="all" />
+        <link rel="stylesheet" type="text/css" href="{__PUBLIC__}style/css.css" media="all" />
+        <script type="text/javascript" src="{__PUBLIC__}js/jquery.js"></script>
+        <script type="text/javascript" src="{__PUBLIC__}js/bootstrap.min.js" ></script>
+        <title>E营销管理系统</title>
+    </head>
+    <body>
+        <ul class="breadcrumb">
+            <li><a href="javascript:void(0)">首页</a> <span class="divider">&gt;&gt;</span></li>
+            <li><a href="javascript:void(0)">内容管理</a> <span class="divider">&gt;&gt;</span></li>
+            <li><a href="javascript:void(0)">内容采集</a> <span class="divider">&gt;&gt;</span></li>
+            <li class="active">网址采集</li>
+            <li class="pull-right" style="margin-top:-3px">
+                <a class="btn btn-small btn-primary pull-right" href="index.php?c=collection">返回</a>
+            </li>
+        </ul>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>网址列表：{$url_list}总共： {$total} 条记录。重复记录：{$re}。去除重复记录，共入库{$unre}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {foreach $url as $vo}
+                <tr>
+                    <td>{$vo['title']}<br>{$vo['url']}</td>
+                </tr>
+                {/foreach}
+            </tbody>
+            {if $total_page > $page}
+            <script type='text/javascript'>
+                location.href='index.php?c=collection&a=col_url_list&id={$node_id}&page={$next}';
+            </script>
+            {else/}
+            <tfoot>
+                <tr >
+                    <td align='center'>
+                        <a class="btn btn-primary" href="index.php?c=collection">返回</a>
+                        <a class="btn btn-primary" href="index.php?c=collection&a=col_content&id={$node_id}">采集内容</a>
+                    </td>
+                </tr>
+            </tfoot>
+            {/if}
+        </table>
+    </body>
+</html>

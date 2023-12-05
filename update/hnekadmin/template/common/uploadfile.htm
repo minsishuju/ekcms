@@ -1,0 +1,97 @@
+<script type="text/javascript" src="{__PUBLIC__}js/jquery.js" ></script>
+<script type="text/javascript" src="{__PUBLIC__}js/bootstrap.min.js" ></script>
+
+<ul class="nav nav-tabs" id="myTab">
+    <li class="active"><a href="#_uploadfile">上传附件</a></li>
+</ul>
+<div class="tab-content">
+    <div class="tab-pane active" id="_uploadfile">
+        <div class="uploadify_box">
+            <ul id="_uploadify_one_box" class="clearfix">
+            </ul>
+            <input id="uploadify" type="file" onchange="uploadHandler(this)">
+            <!-- <input name="image" value="" type="hidden"> -->
+        </div>
+    </div>
+</div>
+<script>
+    function uploadHandler(e) {
+        // 先获取到选择文件
+        var file = e.files[0]
+        var fileType = file['name'].substring(file['name'].lastIndexOf(".")+1).toLowerCase();
+        //判断上传文件格式
+        var allow_type = [ "jpg", "jpeg", "png", "gif", "rar", "zip", "pdf", "mp4", "doc", "docx", "txt", "xls" ];
+        if($.inArray( fileType, allow_type )==-1)
+        {
+           alert("您上传的文件格式不被允许！");
+            $("#uploadify").val("");
+            return false;   //阻止submit提交 
+        }
+
+        if(file['size']>200*1024*1024){
+            alert("文件大小超过限制，不得大于200M");
+            $("#uploadify").val("");
+            return false;   //阻止submit提交
+        }
+
+        // 创建一个FormData对象
+        var formData = new FormData();
+        // 把选择的文件设置到formData中
+        formData.set('image', file)
+        formData.set('site_id', '{$site_id}')
+        formData.set('input_id', '{$input_id}')
+        formData.set('file', 'image')
+
+        $.ajax({
+            method: 'POST',
+            url: 'index.php?c=Common&a=uploadfile',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (data) {
+               if(data.status == 0){
+                    alert(data.message);
+                }else{
+                    var html = '<li>';
+                    html += '<input type="hidden" name="file" value="'+data.path+'">';
+                    html += '<span>'+data.path+'</span>';
+                    html += '</li>';
+                    $('#_uploadify_one_box').html(html);
+                }
+            }
+        })
+
+    }
+$(function(){
+    // $('#uploadify').uploadify({
+    //     'buttonClass'       : 'btn btn-primary',
+    //     'fileObjName'       : 'image',
+    //     'fileSizeLimit'     : '200MB',
+    //     'multi'             : false,
+    //     'buttonText'        : '选择文件',
+    //     'width'             : '60',
+    //     'height'            : '30',
+    //     'fileTypeExts'      : '*.rar;*.zip;*.pdf;*.mp4;*.doc;*.docx;*.txt;*.xls;*.jpg;*.png',
+    //     'formData'          : {
+    //         'file'      :'image',
+    //         'site_id'   :'{$site_id}',
+    //         'input_id'  :'{$input_id}'
+    //     },
+    //     'swf'               : '{__PUBLIC__}js/uploadify/uploadify.swf',
+    //     'uploader'          : 'index.php?c=Common&a=uploadfile',
+    //     'onUploadSuccess'   : function(file, data, response){
+    //         data = $.parseJSON(data);
+    //         if(data.status == 0){
+    //             alert(data.message);
+    //         }else{
+    //             var html = '<li>';
+    //             html += '<input type="hidden" name="file" value="'+data.path+'">';
+    //             html += '<span>'+data.path+'</span>';
+    //             html += '</li>';
+    //             $('#_uploadify_one_box').html(html);
+    //         }
+    //     }
+    // });
+
+});
+</script>

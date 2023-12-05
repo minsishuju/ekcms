@@ -1,0 +1,66 @@
+<form action="" method="post" id="content_form" class="form-inline">
+    <ul class="breadcrumb">
+        <li>
+            <b class="kserico">标题：</b>
+            <input name="name" type="text" class="input-mini" value="{$_GET['name']}"> 
+            <input type="button" class="btn" id="search_content" value="搜 索">
+        </li>
+    </ul>
+</form>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th width="15">ID</th>
+            <th>标题</th>
+            <th width="50">添加时间</th>
+        </tr>
+    </thead>
+    <tbody>
+        {foreach $list as $vo}
+        <tr>
+            <td><label class="checkbox"><input type="checkbox" name="material_id" value="{$vo['material_id']}">{$vo['material_id']}</label></td>
+            <td ><a href="javascript:void(0)" title="{$vo['title']}">{@iCutstr($vo['title'],55)}</a></td>
+            <td align='center'>{@date('Y-m-d',$vo['add_time'])}</td>
+        </tr>
+        {/foreach}
+    </tbody>
+    <tfoot>
+        <tr> 
+            <td colspan="3"><div class="pagination">{$page}</div></td>
+        </tr>
+    </tfoot>
+</table>
+<script>
+$(function(){
+    $('.pagination a').click(function(){
+        $.get($(this).attr('href'),function(data){
+            $('#updateimg .modal-body').html(data);
+        },'html')
+        return false;
+    });
+    $('input[name="material_id"]').click(function(){
+        var material_id = $(this).val();
+        if($(this).is(':checked')){
+            if($('#message_box').children('li').length >= 5){
+                alert('最多选择5条');
+                return false;
+            }
+            if($('#message_box').children('li[rel="' + material_id + '"]').length <= 0){
+                var html = '<li rel="' + material_id + '">' + $(this).parents('td').next().html() + '<input type="hidden" value="' + material_id + '" name="ids[]"></li>';
+                $('#message_box').append(html);
+            }
+        }else{
+            $('#message_box').children('li[rel="' + material_id + '"]').remove();
+        }
+        
+    });
+    $('#search_content').click(function(){
+        var name = $('#content_form input[name="name"]').val();
+        var category_id = $('#content_form select[name="category_id"]').val();
+        $.get('index.php?c=wechar&a=select_material&name='+name,function(data){
+            $('#updateimg .modal-body').html(data);
+        },'html')
+        return false;
+    });
+});
+</script>

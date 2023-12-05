@@ -1,0 +1,98 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <link rel="shortcut icon" href="favicon.ico" />
+        <link rel="stylesheet" type="text/css" href="{__PUBLIC__}style/bootstrap_min.css" media="all" />
+        <link rel="stylesheet" type="text/css" href="{__PUBLIC__}style/css.css" media="all" />
+        <script type="text/javascript" src="{__PUBLIC__}js/jquery.js"></script>
+        <script type="text/javascript" src="{__PUBLIC__}js/bootstrap.min.js" ></script>
+        <title>E营销管理系统</title>
+    </head>
+    <body>
+        <ul class="breadcrumb">
+            <li><a href="javascript:void(0)">首页</a> <span class="divider">&gt;&gt;</span></li>
+            <li><a href="javascript:void(0)">内容管理</a> <span class="divider">&gt;&gt;</span></li>
+            <li><a href="javascript:void(0)">内容采集</a> <span class="divider">&gt;&gt;</span></li>
+            <li class="active">采集内容管理</li>
+            <li class="pull-right" style="margin-top:-3px">
+                <a class="btn btn-small btn-primary pull-right" href="index.php?c=collection">返回</a>
+            </li>
+        </ul>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th width="5%"><input id="select_all" type="checkbox"></th>
+                    <th width="5%">状态</th>
+                    <th>标题</th>
+                    <th>网址</th>
+                    <th width="10%">操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                {foreach $list as $vo}
+                <tr>
+                    <th align='center'><input class="select" value="{$vo['content_id']}" type="checkbox"></th>
+                    <td align='center'>{if $vo['status'] == 0}未采集{elseif $vo['status'] == 2}已导入{else/}已采集{/if}</td>
+                    <td >{$vo['title']}</td>
+                    <td >{$vo['url']}</td>
+                    <td align='center'>
+                        <a href="javascript:void(0)" onclick="return confirmurl('index.php?c=collection&a=content_del&id={$vo['content_id']}','确定删除“{$vo['title']}”吗?')">删除</a>
+                    </td>
+                </tr>
+                {/foreach}
+            </tbody>
+            <tfoot>
+                <tr >
+                    <th align='center'>
+                        <input class="btn btn-primary" id="move_all" type="button" value="批量移动" />
+                    </th>
+                    <td colspan="9"><div class="pagination">{$page}</div></td>
+                </tr>
+            </tfoot>
+        </table>
+        <div id="posids" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h3 id="myModalLabel">批量导入</h3>
+            </div>
+            <div class="modal-body">
+                <p style="text-algin:center">loadding......</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+            </div>
+        </div>
+        <script>
+            function confirmurl(url,message){
+                if(confirm(message)){
+                    location.replace(url);
+                }
+            }
+            $(function(){
+                $('#select_all').change(function(){
+                    $('.select').prop('checked',$(this).prop('checked'));
+                });
+                $('#move_all').click(function(){
+                    var ids = new Array();
+                    $('.select:checked').each(function(){
+                        ids.push($(this).val());
+                    });
+                    ids = ids.join(',');
+                    $('#posids').modal({
+                        width  : 360,
+                        height : 640,
+                        remote : 'index.php?c=collection&a=move_content&ids='+ids
+                    });
+                });
+                $('#posids').on('hidden', function () {
+                    $(this).removeData();
+                });
+            })
+        </script>
+    </body>
+</html>

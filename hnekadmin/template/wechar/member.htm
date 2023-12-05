@@ -1,0 +1,144 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <link rel="shortcut icon" href="favicon.ico" />
+        <link rel="stylesheet" type="text/css" href="{__PUBLIC__}style/bootstrap_min.css" media="all" />
+        <link rel="stylesheet" type="text/css" href="{__PUBLIC__}style/css.css" media="all" />
+        <script src="{__PUBLIC__}js/jquery.js"></script>
+        <script src="{__PUBLIC__}js/bootstrap.min.js"></script>
+        <title>E营销管理系统</title>
+    </head>
+    <body>
+        <form action="index.php?c=wechar&a=member" method="get" class="form-inline">
+        <input name="c" type="hidden" value="wechar">
+        <input name="a" type="hidden" value="member">
+        <ul class="breadcrumb">
+            <li><a href="javascript:void(0)">首页</a> <span class="divider">&gt;&gt;</span></li>
+            <li><a href="javascript:void(0)">微信管理</a> <span class="divider">&gt;&gt;</span></li>
+            <li class="active">微信会员管理</li>
+            <li >
+                <b class="kserico">&nbsp;&nbsp;&nbsp;&nbsp;来源：</b>
+                <select name="qrcode">
+                    <option value="0">全部</option>
+                    {loop $qrcode $val}
+                    <option value="{$val['qrcode_id']}">{$val['name']}</option>
+                    {/loop}
+                </select>
+                <input class="btn" value="确定" type="submit">
+            </li>
+            <li class="pull-right" style="margin-top:-3px">
+                <a class="btn btn-small btn-primary pull-right" id="groups">同步会员信息</a>
+            </li>
+        </ul>
+        </form>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th width="5%">ID</th>
+                    <th width="10%">会员昵称</th>
+                    <th width="10%">来源</th>
+                    <th width="10%">头像</th>
+                    <th width="10%">性别</th>
+                    <th width="5%">国家</th>
+                    <th width="5%">省份</th>
+                    <th width="5%">城市</th>
+                    <th width="10%">关注时间</th>
+                    <th width="10%">最后活跃时间</th>
+                    <th width="5%">关注状态</th>
+                    <th width="10%">管理操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                {foreach $list as $vo}
+                <tr>
+                    <td align='center'>{$vo['member_id']}</td>
+                    <td >{$vo['nickname']}</td>
+                    <td >{$vo['q_name']}</td>
+                    <td ><img src="{$vo['headimgurl']}" style="width:30px;;height:30px;"></td>
+                    <td align='center'>{if $vo['sex'] == 1}男{elseif $vo['sex'] == 2}未知{/if}</td>
+                    <td >{$vo['country']}</td>
+                    <td >{$vo['province']}</td>
+                    <td >{$vo['city']}</td>
+                    <td align='center'>{@date('Y-m-d H:i:s',$vo['subscribe_time'])}</td>
+                    <td align='center'>{@date('Y-m-d H:i:s',$vo['end_time'])}</td>
+                    <td align='center'>{if $vo['subscribe'] == 1}已关注{else/}<span style="color:red">未关注</span>{/if}</td>
+                    <td align='center'>
+                        <a href="javascript:void(0)" class="view_member" data-member="{$vo['member_id']}">详请</a> | 
+                        {if $vo['subscribe'] == 1 && $vo['end_time'] != 0 && (($vo['end_time']-time()) < 48*60*60)}
+                        <a href="index.php?c=wechar&a=reply_message&id={$vo['member_id']}">消息回复</a> |
+                        {else/}
+                        <span style="color:#CCC">消息回复</span> |
+                        {/if}
+                        {if $vo['is_admin'] == 0}
+                        <a href="index.php?c=wechar&a=set_admin&id={$vo['member_id']}">设为管理员</a>
+                        {else/}
+                        <a href="index.php?c=wechar&a=close_admin&id={$vo['member_id']}">取消管理员</a>
+                        {/if}
+                    </td>
+                </tr>
+                {/foreach}
+            </tbody>
+            <tfoot>
+                <tr > 
+                    <td colspan="12"><div class="pagination">{$page}</div></td>
+                </tr>
+            </tfoot>
+        </table>
+        <div id="posids" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h3 id="myModalLabel"></h3>
+            </div>
+            <div class="modal-body">
+                <p style="text-algin:center">loadding......</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+                <button class="btn btn-primary" id="modal_submit" data-dismiss="modal" aria-hidden="true">确定</button>
+            </div>
+        </div>
+        <script>
+            $(function(){
+                $('#groups').click(function(){
+                    $('#posids').removeData();
+                    $('#myModalLabel').html('同步会员信息');
+                    $('#posids').modal({
+                        remote:'index.php?c=wechar&a=groups'
+                    });
+                });
+                $('.view_member').click(function(){
+                    $('#posids').removeData();
+                    $('#myModalLabel').html('查看会员信息');
+                    var member_id = $(this).data('member');
+                    $('#posids').modal({
+                        remote:'index.php?c=wechar&a=view_member&id='+member_id
+                    });
+                });
+                $('.view_content').click(function(){
+                    $('#posids').removeData();
+                    $('#myModalLabel').html('查看会员收藏');
+                    var member_id = $(this).data('member');
+                    $('#posids').modal({
+                        remote:'index.php?c=wechar&a=view_content&id='+member_id
+                    });
+                });
+                $('#posids').on('hidden', function () {
+                    $(this).removeData();
+                })
+                $('#modal_submit').click(function(){
+                    $('#modal_form').submit();
+                });
+            });
+            function confirmurl(url,message){
+                if(confirm(message)){
+                    location.replace(url);
+                }
+            }
+        </script>
+    </body>
+</html>

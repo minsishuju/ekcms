@@ -1,0 +1,77 @@
+{template index/header}
+
+<div class="n_cer_t zw mc">客户：{$kehu}</div>
+<div class="n_cer_b zw mc">
+    <div class="n_cer_b_l left">{$title}</div>
+    <div class="n_cer_b_r right">1580次点赞</div>
+    <div class="clearit"></div>
+</div>
+
+<div class="zw mc">
+    <div class="xm_xn left">
+        <div class="xw_tt">项目概述</div>
+        <div class="xm_cc">{@iStripslashes($content)}</div>
+    </div>
+    <div class="xm_ms right">
+        <div class="xw_tt">项目服务</div>
+        <div class="xw_ff">
+            <span><samp>时间：</samp>{$shijian}</span>
+            <span><samp>行业：</samp>{$hangye}</span>
+            <span><samp>服务：</samp>{$fuwu}</span>
+        </div>
+    </div>
+    <div class="clearit"></div>
+
+</div>
+
+<div class="zw mc">
+    {if $eone != ''}
+    <div class="xm_yw">{$eone}</div>
+    {/if}
+    {if $one != ''}
+    <div class="xm_bt">{$one}</div>
+    {/if}
+    {if $miaosuone != ''}
+    <div class="xm_xx">
+        {$miaosuone}
+    </div>
+    {/if}
+
+    {if $etwo != ''}
+    <div class="xm_yw">{$etwo}</div>
+    {/if}
+    {if $two != ''}
+    <div class="xm_bt">{$two}</div>
+    {/if}
+    {if $miaosutwo != ''}
+    <div class="xm_xx">
+        {$miaosutwo}
+    </div>
+    {/if}
+
+    {if $ethree != ''}
+    <div class="xm_yw">{$ethree}</div>
+    {/if}
+    {if $three != ''}
+    <div class="xm_bt">{$three}</div>
+    {/if}
+    {if $miaosuthree != ''}
+    <div class="xm_xx">
+        {$miaosuthree}
+    </div>
+    {/if}
+
+</div>
+
+<div class="fx mc"><img src="{__PUBLIC__}images/anli_14.jpg"></div>
+
+<div class="zw mc">
+    <div class="fy">
+        <div class="fy_l left"><a href="{$previous_page[url]}">{$previous_page[title]}</a></div>
+        <div class="fy_c left"><a href="{$CATEGORYS[$category_id][url]}"></a></div>
+        <div class="fy_r right"><a href="{$next_page[url]}">{$next_page[title]}</a></div>
+        <div class="clearit"></div>
+    </div>
+
+</div>
+{template index/footer}

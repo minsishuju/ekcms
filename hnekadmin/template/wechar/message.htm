@@ -1,0 +1,89 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <link rel="shortcut icon" href="favicon.ico" />
+        <link rel="stylesheet" type="text/css" href="{__PUBLIC__}style/bootstrap_min.css" media="all" />
+        <link rel="stylesheet" type="text/css" href="{__PUBLIC__}style/css.css" media="all" />
+        <script src="{__PUBLIC__}js/jquery.js"></script>
+        <script src="{__PUBLIC__}js/bootstrap.min.js"></script>
+        <title>E营销管理系统</title>
+    </head>
+    <body>
+        <ul class="breadcrumb">
+            <li><a href="javascript:void(0)">首页</a> <span class="divider">&gt;&gt;</span></li>
+            <li><a href="javascript:void(0)">微信管理</a> <span class="divider">&gt;&gt;</span></li>
+            <li class="active">微信消息管理</li>
+        </ul>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th width="5%">ID</th>
+                    <th width="5%">会员ID</th>
+                    <th width="5%">会员昵称</th>
+                    <th width="15%">消息类型</th>
+                    <th width="30%">消息内容</th>
+                    <th width="15%">发送时间</th>
+                    <th width="10%">管理操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                {foreach $list as $vo}
+                <tr>
+                    <td align='center'>{$vo['message_id']}</td>
+                    <td align='center'>{$vo['member_id']}</td>
+                    <td align='center'>{$vo['nickname']}</td>
+                    <td align='center'>{$vo['type']}</td>
+                    <td align='center'>{$vo['content']}</td>
+                    <td align='center'>{@date('Y-m-d H:i:s',$vo['add_time'])}</td>
+                    <td align='center'>
+                        <a href="javascript:void(0)" class="reply_message" data-member="{$vo['member_id']}" >回复</a> | 
+                        <a href="javascript:void(0)" onclick="return confirmurl('index.php?c=wechar&a=message_delete&id={$vo['message_id']}','确定删除该条消息吗?')">删除</a>
+                    </td>
+                </tr>
+                {/foreach}
+            </tbody>
+            <tfoot>
+                <tr > 
+                    <td colspan="8"><div class="pagination">{$page}</div></td>
+                </tr>
+            </tfoot>
+        </table>
+        <div id="posids" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h3 id="myModalLabel"></h3>
+            </div>
+            <div class="modal-body">
+                <p style="text-algin:center">loadding......</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+                <button class="btn btn-primary" id="modal_submit" data-dismiss="modal" aria-hidden="true">确定</button>
+            </div>
+        </div>
+        <script>
+            $(function(){
+                $('.reply_message').click(function(){
+                    $('#myModalLabel').html('会员信息回复');
+                    var member_id = $(this).data('member');
+                    $('#posids').modal({
+                        remote:'index.php?c=wechar&a=reply_message&id='+member_id
+                    });
+                });
+                $('#posids').on('hidden', function () {
+                    $(this).removeData();
+                })
+            });
+            function confirmurl(url,message){
+                if(confirm(message)){
+                    location.replace(url);
+                }
+            }
+        </script>
+    </body>
+</html>

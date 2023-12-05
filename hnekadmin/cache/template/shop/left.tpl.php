@@ -1,0 +1,61 @@
+<?php if (!defined('IN_FW')) exit('Access Denied');?>
+<div class="left">
+    <div class="main">
+        <div class="subnav">
+            <div class="subnav-title">
+                <a href="javascript:void(0);" target="_self" class='toggle-subnav'><span>栏目管理</span></a>
+            </div>
+            <ul class="subnav-menu" style="display: block">
+                <li>
+                    <a href="index.php?c=shop&a=category" target="mainFrame">栏目列表</a>
+                </li>
+                <li>
+                    <a href="index.php?c=shop&a=add_category" target="mainFrame">添加栏目</a>
+                </li>
+            </ul>
+        </div>
+        <div class="subnav">
+            <div class="subnav-title">
+                <a href="javascript:void(0);" target="_self" class='toggle-subnav'><span>商品管理</span></a>
+            </div>
+            <ul class="subnav-menu" style="display: block">
+                <li>
+                    <a href="index.php?c=shop&a=goods" target="mainFrame">全部商品</a>
+                    <a href="index.php?c=shop&a=package" target="mainFrame">组合礼包</a>
+                </li>
+            </ul>
+        </div>
+        <div class="subnav">
+            <div class="subnav-title">
+                <a href="javascript:void(0);" target="_self" class='toggle-subnav'><span>订单管理</span></a>
+            </div>
+            <ul class="subnav-menu" style="display: block">
+                <li>
+                    <a href="index.php?c=shop&a=orders" target="mainFrame">订单列表</a>
+                </li>
+            </ul>
+        </div>
+        <div class="subnav">
+            <div class="subnav-title">
+                <a href="javascript:void(0);" target="_self" class='toggle-subnav'><span>商城设置</span></a>
+            </div>
+            <ul class="subnav-menu" style="display: block">
+                <li>
+                    <a href="index.php?c=shop&a=setting" target="mainFrame">基本设置</a>
+                </li>
+                <li>
+                    <a href="index.php?c=shop&a=alipay" target="mainFrame">支付宝支付设置</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<script>
+$('div.subnav > .subnav-title').click(function(){    	
+    if($(this).parent().find('ul').is(':hidden')){
+        $(this).parent().find('ul').stop().slideDown();
+    }else{
+        $(this).parent().find('ul').stop().slideUp();
+    }
+});
+</script>

@@ -1,0 +1,107 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <link rel="shortcut icon" href="favicon.ico" />
+        <link rel="stylesheet" type="text/css" href="{__PUBLIC__}style/bootstrap_min.css" media="all" />
+        <link rel="stylesheet" type="text/css" href="{__PUBLIC__}style/css.css" media="all" />
+        <script src="{__PUBLIC__}js/jquery.js"></script>
+        <script type="text/javascript" src="{__PUBLIC__}js/bootstrap.min.js" ></script>
+        <title>E营销管理系统</title>
+    </head>
+    <body>
+        <ul class="breadcrumb">
+            <li><a href="javascript:void(0)">首页</a> <span class="divider">&gt;&gt;</span></li>
+            <li><a href="javascript:void(0)">内容管理</a> <span class="divider">&gt;&gt;</span></li>
+            <li><a href="javascript:void(0)">内容相关设置</a> <span class="divider">&gt;&gt;</span></li>
+            <li class="active">广告管理</li>
+            <li class="pull-right" style="margin-top:-3px">
+                <a class="btn btn-small btn-primary pull-right" href="javascript:void(0);" id="add_ad_space">添加版位</a>
+            </li>
+        </ul>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th width="15%">ID</th>
+                    <th width="40%">版位名称</th>
+                    <th width="10%">广告数量</th>
+                    <th width="20%">版位描述</th>
+                    <th width="25%">管理操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                {foreach $list as $vo}
+                <tr>
+                    <td align='center'>{$vo['space_id']}</td>
+                    <td >{$vo['name']}</td>
+                    <td >{$vo['num']}</td>
+                    <td >{$vo['description']}</td>
+                    <td align='center'>
+                        <a href="index.php?c=content&a=add_ad&space_id={$vo['space_id']}">添加广告</a> | 
+                        <a href="index.php?c=content&a=list_ad&space_id={$vo['space_id']}">广告列表</a> | 
+                        <a class="edit_ad_space" href="javascript:void(0)" data-space="{$vo['space_id']}">修改</a> | 
+                        <a href="javascript:void(0)" onclick="return confirmurl('index.php?c=content&a=delete_ad_space&id={$vo['space_id']}','确定删除“{$vo['name']}”吗?')">删除</a>
+                    </td>
+                </tr>
+                {/foreach}
+            </tbody>
+            <tfoot>
+                <tr > 
+                    <td colspan="5"><div class="pagination">{$page}</div></td>
+                </tr>
+            </tfoot>
+        </table>
+        <div id="ad_space" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h3 id="myModalLabel"></h3>
+            </div>
+            <div class="modal-body">
+                <p style="text-algin:center">loadding......</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+                <button class="btn btn-primary" id="modal_submit" data-dismiss="modal" aria-hidden="true">确定</button>
+            </div>
+        </div>
+        <script>
+            $(function(){
+                $('#add_ad_space').click(function(){
+                    $('#myModalLabel').html('添加广告版位');
+                    $('#ad_space').modal({
+                        remote:'index.php?c=content&a=add_ad_space'
+                    });
+                });
+                $('.edit_ad_space').click(function(){
+                    $('#myModalLabel').html('修改广告版位');
+                    var space_id = $(this).data('space');
+                    $('#ad_space').modal({
+                        remote:'index.php?c=content&a=edit_ad_space&id='+space_id
+                    });
+                });
+                $('.add_ad').click(function(){
+                    $('#myModalLabel').html('添加广告');
+                    var space_id = $(this).data('space');
+                    $('#ad_space').modal({
+                        remote:'index.php?c=content&a=add_ad&space_id='+space_id
+                    });
+                });
+                $('#ad_space').on('hidden', function () {
+                    $(this).removeData();
+                })
+                $('#modal_submit').click(function(){
+                    $('#modal_form').submit();
+                });
+            });
+            function confirmurl(url,message){
+                if(confirm(message)){
+                    location.replace(url);
+                }
+            }
+        </script>
+    </body>
+</html>

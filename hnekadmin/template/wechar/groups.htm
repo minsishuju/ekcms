@@ -1,0 +1,32 @@
+<table>
+    <thead>
+    <tr>
+        <td align="left"><strong>共计有（{$user_num}）个微信会员</strong></td>
+    </tr>
+    <thead>
+    <tbody id="mag_box">
+    <tr>
+        <td align="left">正在同步第0-100个微信会员</td>
+    </tr>
+    </tbody>
+</table>
+<script>
+function get_member(page){
+    $.get('index.php?c=wechar&a=get_member&page='+page,function(data){
+        if(data.status == 0){
+            alert(data.msg);
+        }else if(data.status == 2){
+            $('#mag_box').append('<tr><td align="left">' + data.msg + '</td></tr>');
+        }else{
+            var start_num = page * 100;
+            page++;
+            var end_num = page * 100;
+            $('#mag_box').append('<tr><td align="left">正在同步第' + start_num + '-' + end_num + '个微信会员</td></tr>');
+            get_member(page);
+        }
+    });
+}
+$(function(){
+    get_member(1);
+});
+</script>

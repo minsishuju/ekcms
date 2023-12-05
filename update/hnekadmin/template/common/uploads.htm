@@ -1,0 +1,140 @@
+    <script type="text/javascript" src="{__PUBLIC__}js/jquery.js" ></script>
+    <script type="text/javascript" src="{__PUBLIC__}js/bootstrap.min.js" ></script>
+    <style>
+        #_album_box > li{
+            float: left;
+            width: 140px;
+            height: 150px;
+            list-style-type: none;
+        }
+        #_album_box > li:nth-child(odd){
+            padding: 5px 5px 5px 10px;
+        }
+        #_album_box > li:nth-child(even){
+            padding: 5px 10px 5px 5px;
+        }
+        .pagination ul > li > a{
+            padding: 4px 8px;
+        }
+    </style>
+<ul class="nav nav-tabs" id="myTab">
+    <li class="active"><a href="#_uploadfile">上传附件</a></li>
+    <li><a href="#_onlinefile">网络图片</a></li>
+    <li><a href="#_album">图库</a></li>
+</ul>
+<div class="tab-content">
+    <div class="tab-pane active" id="_uploadfile">
+        <div class="uploadify_box">
+            <ul id="_uploadify_box" class="clearfix">
+            </ul>
+            <input id="uploadify" type="file" onchange="uploadHandler(this)">
+            <input name="image" value="" type="hidden">
+        </div>
+    </div>
+    <div class="tab-pane" id="_onlinefile">
+        <div class="uploadify_box">
+            请输入网络地址：<input name="album[]" value="" type="text">
+        </div>
+    </div>
+    <div class="tab-pane" id="_album">
+        <ul id="_album_box" class="clearfix"></ul>
+    </div>
+</div>
+<script>
+    $('#myTab a').click(function (e) {
+        e.preventDefault();
+        $(this).tab('show');
+    })
+    $('#myTab a:last').on('show', function (e) {
+        $.get('index.php?c=Common&a=album',function(data){
+            var album = data.list;
+            if(album.length > 0){
+                var html = '';
+                $.each(data.list,function(index,obj){
+                    html += '<li><a class="off" href="javascript:void(0);"><div class="icon"></div><img src="/' + obj.path + '"></a></li>';
+                });
+                $('#_album_box').html(html);
+                $('#_album_box').siblings('div').remove();
+                $('#_album_box').after('<div id="album_page" class="pagination">'+data.page+'</div>');
+            }else{
+                $('#_album_box').html('');
+            }
+        });
+    })
+    function uploadHandler(e) {
+        // 先获取到选择文件
+        var file = e.files[0]
+        var fileType = file['name'].substring(file['name'].lastIndexOf(".")+1).toLowerCase();
+        //判断上传文件格式
+        var allow_type = [ "jpg", "jpeg", "png", "gif" ];
+        if($.inArray( fileType, allow_type )==-1)
+        {
+           alert("请选择图片格式文件上传(jpg,png,jpeg,gif)！");
+            $("#uploadify").val("");
+            return false;   //阻止submit提交 
+        }
+        if(file['size']>2*1024*1024){
+            alert("图片不能大于2M");
+            $("#uploadify").val("");
+            return false;   //阻止submit提交
+        }
+
+        // 创建一个FormData对象
+        var formData = new FormData();
+        // 把选择的文件设置到formData中
+        formData.set('image', file)
+        formData.set('site_id', '{$site_id}')
+        formData.set('input_id', '{$input_id}')
+        formData.set('file', 'image')
+
+        $.ajax({
+            method: 'POST',
+            url: 'index.php?c=Common&a=upload',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (data) {
+                if(data.status == 0){
+                    alert(data.message);
+                }else{
+                    var html = '<li>';
+                    html += '<input type="hidden" name="album[]" value="'+data.path+'">';
+                    html += '<img src="'+data.path+'">';
+                    html += '</li>';
+                    $('#_uploadify_box').append(html);
+                }
+            }
+        })
+
+    }
+$(function(){
+    $('#_album').on('click','#album_page a',function(){
+        $.get($(this).attr('href'),function(data){
+            var album = data.list;
+            if(album.length > 0){
+                var html = '';
+                $.each(data.list,function(index,obj){
+                    html += '<li><a class="off" data-attachment_id="' + obj.attachment_id + '" href="javascript:void(0);"><div class="icon"></div><img src="/' + obj.path + '"></a></li>';
+                });
+                $('#_album_box').html(html);
+                $('#_album_box').siblings('div').remove();
+                $('#_album_box').after('<div id="album_page" class="pagination">'+data.page+'</div>');
+            }else{
+                $('#_album_box').html('');
+            }
+        });
+        return false;
+    });
+    $('#_album').on('click','#_album_box a',function(){
+        var path = $(this).children('img').attr('src');
+        if($('#_album').find('input[value="'+path+'"]').length > 0){
+            $(this).removeClass('on').addClass('off');
+            $('#_album').find('input[value="'+path+'"]').remove();
+        }else{
+            $(this).removeClass('off').addClass('on');
+            $('#_album').append('<input name="album[]" value="'+path+'" type="hidden">');
+        }
+        return false;
+    });
+});
+</script>

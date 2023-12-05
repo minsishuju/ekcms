@@ -1,0 +1,24 @@
+<div class="left">
+    <div class="main">
+        <div class="subnav">
+            <div class="subnav-title">
+                <a href="javascript:void(0);" target="_self" class='toggle-subnav'><span>会员管理</span></a>
+            </div>
+            <ul class="subnav-menu" style="display: block">
+                <li>
+                    <a href="index.php?c=member&a=lists" target="mainFrame">全部会员</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<script>
+$('div.subnav > .subnav-title').click(function(){    	
+    if($(this).parent().find('ul').is(':hidden')){
+        $('div.subnav').find('ul').slideUp();
+        $(this).parent().find('ul').stop().slideDown();
+    }else{
+        $('div.subnav').find('ul').slideUp();
+    }
+});
+</script>

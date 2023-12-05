@@ -1,0 +1,59 @@
+<link rel="stylesheet" type="text/css" href="{__PUBLIC__}js/uploadify/uploadify.css" media="all" />
+<form action="" method="post" id="content_form" class="form-inline">
+    <ul class="breadcrumb">
+        <li>
+            <b class="kserico">商品分类：</b>
+            <select name="category_id" class="input-small">
+                <option value="1">全部</option>
+                {foreach $category as $vo}
+                    <option value="{$vo['category_id']}" {if $_GET['category_id'] == $vo['category_id']}selected="selected"{/if}>
+                        {$vo['name']}
+                    </option>
+                {/foreach}
+            </select>
+            <input type="button" class="btn" id="search_content" value="搜 索">
+        </li>
+    </ul>
+</form>
+<ul id="_album_box" class="clearfix">
+    {foreach $list as $vo}
+        <li>
+            <a data-goods_id="{$vo['goods_id']}" href="javascript:void(0);">
+                <img src="{$vo['image']}"><div class="icon"></div>
+            </a>
+            <span>{$vo['name']}</span>
+        </li>
+    {/foreach}
+</ul>
+<div class="pagination">{$page}</div>
+<script>
+$(function(){
+    $('.pagination a').click(function(){
+        $.get($(this).attr('href'),function(data){
+            $('#updateimg .modal-body').html(data);
+        },'html')
+        return false;
+    });
+    $('#search_content').click(function(){
+        var name = $('#content_form input[name="name"]').val();
+        var category_id = $('#content_form select[name="category_id"]').val();
+        $.post('index.php?c=shop&a=select_goods',{category_id:category_id},function(data){
+            $('#updateimg .modal-body').html(data);
+        },'html')
+        return false;
+    });
+    $('#_album_box a').click(function(){
+        var goods_id = $(this).data('goods_id');
+        var path = $(this).children('img').attr('src');
+        var goods_name = $(this).next('span').html();
+        if($('#_album_box').find('input[value="'+goods_id+'"]').length > 0){
+            $(this).removeClass('on').addClass('off');
+            $('#_album_box').find('input[value="'+goods_id+'"]').remove();
+        }else{
+            $(this).removeClass('off').addClass('on');
+            $('#_album_box').append('<input name="goods[]" data-image="'+path+'" data-goods_name="'+goods_name+'" value="'+goods_id+'" type="hidden">');
+        }
+        return false;
+    });
+});
+</script>

@@ -1,0 +1,81 @@
+<form action="index.php?c=wechar&a=add_menu" method="post" id="modal_form">
+    <table>
+        <tbody>
+            <tr>
+                <td width="40%" align="right">上级菜单：</td>
+                <td>
+                    <select name="parent_id">
+                        <option value="0">一级菜单</option>
+                        {loop $list $vo}
+                        <option value="{$vo['menu_id']}">{$vo['name']}</option>
+                        {/loop}
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td align="right">菜单名称：</td>
+                <td>
+                    <input name="name" type="text" >
+                </td>
+            </tr>
+            <tr>
+                <td align="right">菜单动作：</td>
+                <td>
+                    <select name="data_type" id="data_type">
+                        <option value="0">--选择菜单动作--</option>
+                        <option value="1">图文消息</option>
+                        <option value="2">转向链接</option>
+                    </select>
+                </td>
+            </tr>
+            <tr style="display:none">
+                <td align="right">链接类型：</td>
+                <td>
+                    <select id="url_type">
+                        <option value="0">自定义</option>
+                        <option value="1">网站首页</option>
+                        <option value="2">个人中心</option>
+                    </select>
+                </td>
+            </tr>
+            <tr style="display:none">
+                <td align="right" id="date_text">消息内容：</td>
+                <td>
+                    <input name="data" type="text" >
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</form>
+<script>
+$(function(){
+    $('#data_type').change(function(){
+        var data_type = $(this).val();
+        switch(data_type){
+            case '0':
+                $('#date_text').parent().hide();
+                $('#url_type').parents('tr').hide();
+                break;
+            case '1':
+                $('#url_type').parents('tr').hide();
+                $('#date_text').html('相关关键字：').parent().show();
+                break;
+            case '2':
+                $('#date_text').html('链接地址：').parent().show();
+                $('#url_type').parents('tr').show();
+                break;
+        }
+    });
+    $('#url_type').click(function(){
+        var url_type = $(this).val();
+        switch(url_type){
+            case '1':
+                $('input[name="data"]').val('{$_SESSION['site']['siteurl']}');
+                break;
+            case '2':
+                $('input[name="data"]').val('{$_SESSION['site']['siteurl']}' + 'index.php?c=weixin&a=member');
+                break;
+        }
+    });
+});
+</script>

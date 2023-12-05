@@ -1,0 +1,208 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <link rel="shortcut icon" href="favicon.ico" />
+    <link rel="stylesheet" type="text/css" href="{__PUBLIC__}kindeditor/themes/default/default.css" />
+    <link rel="stylesheet" type="text/css" href="{__PUBLIC__}style/bootstrap_min.css" media="all" />
+    <link rel="stylesheet" type="text/css" href="{__PUBLIC__}style/css.css" media="all" />
+    <script type="text/javascript" src="{__PUBLIC__}js/jquery.js" ></script>
+    <script type="text/javascript" src="{__PUBLIC__}js/bootstrap.min.js" ></script>
+    <script type="text/javascript" src="{__PUBLIC__}kindeditor/kindeditor-all-min.js" ></script>
+    <script type="text/javascript" src="{__PUBLIC__}kindeditor/lang/zh_CN.js"></script>
+    <script type="text/javascript">
+        var editor;
+        KindEditor.ready(function(K) {
+            editor = K.create('textarea[name="content"]', {
+                uploadJson:'index.php?c=Common&a=editor',
+                allowFileManager : true,
+                fileManagerJson: "index.php?c=Common&a=manager",
+                urlType : '',
+                formatUploadUrl:false,
+                loadStyleMode : false
+            });
+        });
+    </script>
+    <title>E营销管理系统</title>
+</head>
+<body>
+    <ul class="breadcrumb">
+        <li><a href="javascript:void(0)">首页</a> <span class="divider">&gt;&gt;</span></li>
+        <li><a href="javascript:void(0)">微信管理</a> <span class="divider">&gt;&gt;</span></li>
+        <li><a href="javascript:void(0)">素材管理</a> <span class="divider">&gt;&gt;</span></li>
+        <li class="active">编辑素材</li>
+    </ul>
+    <form action="" method="post" class="form-search">
+        <input type="hidden" value="{$info['material_id']}" name="material_id">
+        <table class="table table-bordered">
+            <tbody>
+                <tr>
+                    <td align="right" width="10%"><strong>消息类型：</strong></td>
+                    <td>
+                        <label class="radio"><input type="radio" value="1" {if $info['type'] == 1}checked="checked"{/if} name="type">文字消息</label>
+                        <label class="radio"><input type="radio" value="2" {if $info['type'] == 2}checked="checked"{/if} name="type">图文消息</label>
+                    </td>
+                </tr>
+                <tr class="no_text">
+                    <td align="right"><strong>来源：</strong></td>
+                    <td class="lt">
+                        <input type="button" class="btn btn-primary" id="origin" value="选择来源" />
+                    </td>
+                </tr>
+                <tr class="no_text">
+                    <td align="right"><strong>标题：</strong></td>
+                    <td class="lt">
+                        <input type="text" name="title" id="title" value="{$info['title']}">
+                    </td>
+                </tr>
+                <tr class="no_text">
+                    <td align="right"><strong>封面图片：</strong></td>
+                    <td class="lt">
+                        {if $info['image']}
+                        <img src="{$info['image']}" width="30" height="30">
+                        {/if}
+                        <input type="hidden" name="image" id="image" value="{$info['image']}" />&nbsp;
+                        <input type="button" class="btn btn-primary" id="updateimgbutton" value="选择图片" />
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right"><strong id="text">描述：</strong></td>
+                    <td class="lt">
+                        <textarea name="description" id="description">{$info['description']}</textarea>
+                    </td>
+                </tr>
+                <tr class="no_text">
+                    <td align="right"><strong>内容：</strong></td>
+                    <td class="lt">
+                        <textarea name="content" style="width:360px;height:700px;">{$info['content']}</textarea>
+                    </td>
+                </tr>
+                <tr class="no_text">
+                    <td align="right"><strong>转向链接：</strong></td>
+                    <td class="lt">
+                        <input type="text" name="link" value="{$info['link']}"> 非跳转链接请勿填写
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right"><strong>触发关键字1：</strong></td>
+                    <td class="lt">
+                        <input type="text" name="keyword1" value="{$info['keyword1']}">
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right"><strong>触发关键字2：</strong></td>
+                    <td class="lt">
+                        <input type="text" name="keyword2" value="{$info['keyword2']}">
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right"><strong>触发关键字3：</strong></td>
+                    <td class="lt">
+                        <input type="text" name="keyword3" value="{$info['keyword3']}">
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right"><strong>自动回复：</strong></td>
+                    <td class="lt">
+                        <label class="checkbox"><input type="checkbox" value="1" {if $info['subscribe'] == 1}checked="checked"{/if} name="subscribe">关注回复</label>
+                        <label class="checkbox"><input type="checkbox" value="1" {if $info['default'] == 1}checked="checked"{/if} name="default">默认回复</label>
+                    </td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="4" class="text-center">
+                        <input class="btn btn-primary" type="submit" value="保 存" />
+                        <input class="btn btn-warning" type="button" onclick="javascript:history.back(-1);" value="返 回" />
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </form>
+    <div id="updateimg" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3 id="myModalLabel"></h3>
+        </div>
+        <div class="modal-body">
+            <p style="text-algin:center">loadding......</p>
+        </div>
+        <div class="modal-footer">
+            <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+            <button class="btn btn-primary" data-dismiss="modal" id="selected" aria-hidden="true">确定</button>
+        </div>
+    </div>
+    <script>
+    var updateimg_type = '';
+    $(function(){
+        $('#updateimgbutton').click(function(){
+            $('#updateimg').removeData();
+            updateimg_type = 'image';
+            $('#myModalLabel').html('上传图片');
+            $('#updateimg').modal({
+                remote:'index.php?c=Common&a=upload'
+            });
+        });
+        $('#origin').click(function(){
+            $('#updateimg').removeData();
+            updateimg_type = 'origin';
+            $('#myModalLabel').html('内容来源');
+            $('#updateimg').modal({
+                remote:'index.php?c=wechar&a=origin'
+            });
+        });
+        $('#selected').click(function(){
+            if(updateimg_type == 'image'){
+                var path = $('.tab-pane:visible').find('input[name="image"]').val();
+                $('#image').val(path);
+                $('#image').siblings('img').remove();
+                $('#image').after('<img width="30" height="30" src="'+path+'"> ');
+            }else{
+                var content_id = $("[name='content_id']:checked").val();
+                if(content_id || typeof(content_id)!="undefined"){
+                    $.get('index.php?c=wechar&a=get_content&content_id='+content_id,function(data){
+                        $("#title").val(data.title);
+                        $("#image").val(data.image);
+                        $('#image').siblings('img').remove();
+                        $('#image').after('<img width="30" height="30" src="'+data.image+'">');
+                        $("#description").val(data.description);
+                        editor.html(data.content);
+                    });
+                }
+            }
+        });
+        $('#updateimg').on('hidden', function () {
+            $(this).removeData();
+        });
+        var type = $("[name='type']:checked").val();
+        if(type == 1){
+            $('.no_text').hide();
+            $('#text').html('内容：');
+        }else{
+            $('.no_text').show();
+            $('#text').html('描述：');
+        }
+        $("[name='type']").click(function(){
+            var type = $("[name='type']:checked").val();
+            if(type == 1){
+                $('.no_text').hide();
+                $('#text').html('内容：');
+            }else{
+                $('.no_text').show();
+                $('#text').html('描述：');
+            }
+        });
+        $('#updateimg_btn').click(function(){
+            var path = $('.tab-pane:visible').find('input[name="image"]').val();
+            $('#image').val(path);
+            $('#image').siblings('img').remove();
+            $('#image').after('<img width="30" height="30" src="'+path+'"> ');
+        });
+    });
+    </script>
+</body>
+</html>

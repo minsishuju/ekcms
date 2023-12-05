@@ -1,0 +1,334 @@
+﻿{template index/header_index}
+
+<script type="text/javascript" src="{__PUBLIC__}js/jquery.js"></script>
+
+<script type="text/javascript" src="{__PUBLIC__}js/scrollReveal.js"></script>
+
+
+
+<div class="fwal_t" data-scroll-reveal="enter bottom and move 20px over 0.9s after 0.2s">郑州领跑广告有限公司</div>
+<div class="about" data-scroll-reveal="enter bottom and move 20px over 0.9s after 0.2s">
+
+	<div class="about_c mc">
+
+    	<div class="about_l left"><!--{$CATEGORYS[1][description]}-->郑州领跑广告有限公司2007年成立，是一家专业从事企业形象系统整合的广告品牌策划设计机构。我们致力于为国内外各公司企业、政府机构及事业单位，提供具实效性的品牌形象整合传播服务。十年领跑，十年磨砺，服务范围以形象设计、视觉整合、品牌推广为主，涵盖策划执行全过程，行业涉及工业制造、政府机构、事业单位、快速消费品、房地产等领域。"形象体现品质，品牌创造价值"，优秀的创意不仅是领跑至高无上的工作理念和核心竞争力，更是我们追求的长远目标！公司拥有一支朝气蓬勃、充满激情、勇于创新、严谨敬业、用智铺谋的狼性创造团队，和一批专业从事创意设计、品牌策划以及企业形象系统规划与整合等各领域的广告人才。融合国际标准的专业作业模式与中国本土的市场特点，为客户量身定制广告创意品牌策划服务。本着对客户负责的态度，精心对待每个作品的设计，为您创作出传神达意的经典作品！成立至今，我们一直致力于企业形象设计、品牌发展战略策划、行销整合规划与推广的创作。</div>
+
+        <div class="about_qq left">
+
+        	<span><p>在线QQ:</p><samp>819439578<br />63254829</samp></span>
+            <div class="clearit"></div>
+
+            <span><p>电&nbsp;&nbsp;&nbsp;&nbsp;话:</p><samp>{@config('SITE_INFO.phone')}</samp></span>
+<div class="clearit"></div>
+            <span><p>手&nbsp;&nbsp;&nbsp;&nbsp;机:</p><samp>13838188615</samp></a></span>
+<div class="clearit"></div>
+        </div>
+
+        <div class="about_r right"><a href="n.html"><img src="{__PUBLIC__}images/about_tu.jpg"></a></div>
+
+        <div class="clearit"></div>
+
+        <div class="about_v">
+
+			<video id="cideoPlay1" src="{__PUBLIC__}images/1.mp4" poster="{__PUBLIC__}images/video.jpg" controls="controls" autoplay="autoplay" width="1180" height="294">
+
+			您的浏览器不支持 video 标签。
+
+			</video>
+
+		</div>
+
+    </div>
+
+</div>
+
+<script type="text/javascript">
+
+	var video1=document.getElementById("cideoPlay1");
+
+	video1.onclick=function(){
+
+		if(video1.paused){
+
+			video1.play();
+
+		}else{
+
+			video1.pause();
+
+		}
+
+	}
+
+</script>
+
+<div class="fwal_t" data-scroll-reveal="enter bottom and move 20px over 0.9s after 0.2s">服务案例</div>
+
+
+
+<!--<div class="fwal"  data-scroll-reveal="enter bottom and move 20px over 0.9s after 0.2s">
+
+	<ul>
+
+    	<li><a href="{$CATEGORYS[5][url]}" class="hover-li"><img src="{__PUBLIC__}images/lp_01.jpg"><div class="hover-b"></div> <samp><img src="{__PUBLIC__}images/haob_1.png"></samp></a></li>
+
+        <li><a href="{$CATEGORYS[6][url]}" class="hover-li"><img src="{__PUBLIC__}images/lp_02.jpg"><div class="hover-b" style="display:none"></div> <samp><img src="{__PUBLIC__}images/haob_2.png"></samp></a></li>
+
+        <li><a href="{$CATEGORYS[7][url]}" class="hover-li"><img src="{__PUBLIC__}images/lp_03.jpg"><div class="hover-b"></div> <samp><img src="{__PUBLIC__}images/haob_3.png"></samp></a></li>
+
+        <li><a href="{$CATEGORYS[8][url]}" class="hover-li"><img src="{__PUBLIC__}images/lp_04.jpg"><div class="hover-b"></div> <samp><img src="{__PUBLIC__}images/haob_4.png"></samp></a></li>
+
+    </ul>
+
+    <div class="clearit"></div>
+
+</div>-->
+
+
+
+<div class="fwal"  data-scroll-reveal="enter bottom and move 20px over 0.9s after 0.2s">
+
+	<ul>
+
+    
+
+    	<li class="view effect"><img src="{__PUBLIC__}images/lp_01.jpg">
+			<a href="{$CATEGORYS[5][url]}" target="_blank"> 
+        	<div class="mask">
+
+							
+
+           				 	<p><img src="{__PUBLIC__}images/haob_1.png"></p>
+
+                            
+
+			</div>
+			</a>
+        </li>
+
+        <li class="view effect"><img src="{__PUBLIC__}images/lp_02.jpg">
+				<a href="{$CATEGORYS[5][url]}" target="_blank"> 
+        	<div class="mask">
+
+							
+
+           				 	<p><img src="{__PUBLIC__}images/haob_2.png"></p>
+
+                          
+
+			</div>
+			  </a>
+        </li>
+
+        <li class="view effect"><img src="{__PUBLIC__}images/lp_03.jpg">
+			<a href="{$CATEGORYS[5][url]}" target="_blank">
+        	<div class="mask">
+
+							 
+
+           				 	<p><img src="{__PUBLIC__}images/haob_3.png"></p>
+
+                           
+
+			</div>
+			 </a>
+        </li>
+
+        <li class="view effect"><img src="{__PUBLIC__}images/lp_04.jpg">
+			<a href="{$CATEGORYS[5][url]}" target="_blank"> 
+        	<div class="mask">
+
+							
+
+           				 	<p><img src="{__PUBLIC__}images/haob_4.png"></p>
+
+                            
+
+			</div>
+			</a>
+        </li>
+
+    </ul>
+
+    <div class="clearit"></div>
+
+</div>
+
+
+
+
+
+
+
+<div class="lp_tu mc" data-scroll-reveal="enter bottom and move 20px over 0.9s after 0.2s"><a href="#"><img src="{__PUBLIC__}images/lingp_10.jpg"></a></div>
+
+
+
+<div class="fwal_t" data-scroll-reveal="enter bottom and move 20px over 0.9s after 0.2s">领跑观点</div>
+
+
+
+<div class="lpgd mc zw">
+
+	<ul>
+
+	{content action="position" posid="1" category_id="3" num="3" order="listorder ASC"}
+
+	{php $i = 0}
+
+        {loop $data $r}
+
+		{php $i++}
+
+		{if $i == 1}
+
+    	<li class="view effect"><img src="{@thumb($r[image],780,468)}" width="780" height="468">
+			<a href="{$r[url]}" target="_blank"> 
+        	<div class="mask">
+
+							
+
+           				 	<p>{$r[title]}</p>
+
+                            <div>查看</div>
+
+                            
+
+			</div>
+      		</a>
+        </li>
+
+		{/if}
+
+		{/loop}
+
+		{php $i = 0}
+
+        {loop $data $r}
+
+		{php $i++}
+
+		{if $i > 1}
+
+        <li  class="view effect"><img src="{@thumb($r[image],400,225)}" width="400" height="225">
+			<a href="{$r[url]}" target="_blank"> 
+        	<div class="mask">
+
+							
+
+           				 	<p>{$r[title]}</p>
+
+                            <div>查看</div>
+
+                            
+
+			</div>
+			</a>
+        </li>
+
+        {/if}
+
+		{/loop}
+
+        {/content}
+
+    </ul>
+
+    <div class="clearit"></div>
+
+</div>
+
+
+
+<div class="fwal_t" data-scroll-reveal="enter bottom and move 20px over 0.9s after 0.2s">服务客户</div>
+
+<div class="fwkh_c zw mc" data-scroll-reveal="enter bottom and move 20px over 0.9s after 0.2s">
+
+	<ul>
+
+        {content action="position" posid="1" category_id="9" num="63" order="listorder ASC"}
+
+        {loop $data $r}
+
+    	<li><img src="{@thumb($r[image],150,60)}"></li>
+
+        {/loop}
+
+        {/content}
+
+    </ul>
+
+    <div class="clearit"></div>
+
+</div>
+
+
+
+<div class="cen" data-scroll-reveal="enter bottom and move 20px over 0.9s after 0.2s">
+
+	<div class="read mc"><a href="{$CATEGORYS[9][url]}">更多了解</a></div>
+
+    
+
+    <div class="center_t mc" data-scroll-reveal="enter bottom and move 20px over 0.9s after 0.2s"><img src="{__PUBLIC__}images/center_t_y.jpg"></div>
+
+    <div class="cte zw mc" data-scroll-reveal="enter bottom and move 20px over 0.9s after 0.2s">
+
+    	<div class="cte_l left">
+
+        	固话：0371-6586 1326<br>手机：138 3818 8615<br>Q Q：819439578 63254829<br>郑州市中州大道晨旭路瑞银大厦23楼
+
+        </div>
+
+        <div class="cte_r rigth">
+
+            <form action="{@config('SITE_INFO.siteurl')}index.php?c=guestbook&a=add" method="post" name="myform" id="myform">
+
+                <div class="cte_r1 left">
+
+                    <input class="kkl" placeholder="姓名" name="name" type="text">
+
+                    <input placeholder="电话" class="kkl" name="tel" type="text">
+
+                    <input placeholder="邮箱" class="kkl" name="email" type="text">
+
+                    <input placeholder="公司名称" class="kkl" name="address" type="text">
+
+                </div>
+
+                <div class="cte_r2 left"><textarea placeholder="留言内容" rows="10" cols="30" name="introduce" class="kk2"></textarea></div>
+
+                <div class="cte_r3 right"><input style=" color:#fff;" name="" type="submit" value="发送"></div>
+
+            </form>
+
+        </div>
+
+        <div class="clearit"></div>
+
+    </div>
+
+   
+
+</div>
+
+
+
+
+
+<script type="text/javascript">
+
+    $(function () {
+
+      window.scrollReveal = new scrollReveal({
+
+        reset:false//是否重复加载动画，改为false为不重复
+
+      });
+
+    })();
+
+</script>
+
+{template index/footer}
+

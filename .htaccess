@@ -1,0 +1,24 @@
+<IfModule mod_rewrite.c>
+    Options +FollowSymlinks
+    RewriteEngine On
+    RewriteRule ^(\w+\/)?search\.html index.php?a=search [QSA,L]
+    RewriteRule ^(\w+\/)?sitemap\.xml index.php?a=sitemap&type=xml [QSA,L]
+    RewriteRule ^(\w+\/)?sitemap\.html index.php?a=sitemap [QSA,L]
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^(\w+\/)?([a-z]+)\.html index.php?a=page&othername=$2 [QSA,L]
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^(\w+\/)?([a-z]+)\.html\?(.*) index.php?a=page&othername=$2&$3 [QSA,L]
+    RewriteRule ^([a-z]+\/)?([0-9]+)\.html$ index.php?a=show&id=$2 [QSA,L]
+    RewriteRule ^([a-z]+\/)?([0-9]+)\.html\?(.*) index.php?a=show&id=$2&$3 [QSA,L]
+    
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^(([a-z]+\/)+)?([a-z]+)\/?$ index.php?a=lists&othername=$3 [QSA,L]
+    RewriteRule ^(([a-z]+\/)+)?([a-z]+)\/p([0-9]+)\.html$ index.php?a=lists&othername=$3&page=$4 [QSA,L]
+    
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^(.*)$ index.php?$1 [QSA,L]
+</IfModule>

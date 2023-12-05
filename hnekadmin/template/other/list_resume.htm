@@ -1,0 +1,71 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <link rel="shortcut icon" href="favicon.ico" />
+        <link rel="stylesheet" type="text/css" href="{__PUBLIC__}style/bootstrap_min.css" media="all" />
+        <link rel="stylesheet" type="text/css" href="{__PUBLIC__}style/css.css" media="all" />
+        <script src="{__PUBLIC__}js/jquery.js"></script>
+        <script type="text/javascript" src="{__PUBLIC__}js/bootstrap.min.js" ></script>
+        <title>E营销管理系统</title>
+    </head>
+    <body>
+        <ul class="breadcrumb">
+            <li><a href="javascript:void(0)">首页</a> <span class="divider">&gt;&gt;</span></li>
+            <li><a href="javascript:void(0)">模块管理</a> <span class="divider">&gt;&gt;</span></li>
+            <li><a href="index.php?c=other&a=talent">招聘管理</a> <span class="divider">&gt;&gt;</span></li>
+            <li class="active">申请列表 - {$info['name']}</li>
+        </ul>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th width="5%">ID</th>
+                    <th width="15%">姓名</th>
+                    <th width="10%">性别</th>
+                    <th width="10%">出生日期</th>
+                    <th width="10%">QQ/微信</th>
+                    <th width="10%">手机号</th>
+                    <th width="10%">学历</th>
+                    <th width="10%">毕业学校（专业）</th>
+                    <th width="10%">申请时间</th>
+                    <th width="10%">操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                {foreach $list as $vo}
+                <tr>
+                    <td align='center'>{$vo['resume_id']}</td>
+                    <td >{$vo['name']}</td>
+                    <td align='center' >{if $vo['sex'] == 1}男{else/}女{/if}</td>
+                    <td >{$vo['birthday']}</td>
+                    <td align='center' >{$vo['qq']}/{$vo['wechar']}</td>
+                    <td align='center' >{$vo['tel']}</td>
+                    <td align='center' >{$vo['degree']}</td>
+                    <td align='center' >{$vo['school']}（{$vo['discipline']}）</td>
+                    <td align='center' >{@date('Y-m-d',$vo['add_time'])}</td>
+                    <td align='center'>
+                        <a href="index.php?c=other&a=view_resume&id={$vo['resume_id']}">查看</a> | 
+                        <a href="javascript:void(0)" onclick="return confirmurl('index.php?c=other&a=delete_resume&id={$vo['resume_id']}','确定删除“{@iStripslashes($vo['name'])}”的求职信息吗?')">删除</a>
+                    </td>
+                </tr>
+                {/foreach}
+            </tbody>
+            <tfoot>
+                <tr > 
+                    <td colspan="10"><div class="pagination">{$page}</div></td>
+                </tr>
+            </tfoot>
+        </table>
+        <script>
+            function confirmurl(url,message){
+                if(confirm(message)){
+                    location.replace(url);
+                }
+            }
+        </script>
+    </body>
+</html>

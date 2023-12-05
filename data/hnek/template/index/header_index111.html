@@ -1,0 +1,128 @@
+<!doctype html>
+
+
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+
+	<meta name="viewport" content="width=1200">
+
+    <meta name="format-detection" content="telephone=no">
+
+    <title>{if isset($SEO['title']) && !empty($SEO['title'])}{$SEO['title']}{$SEO['name']}{if $city != ''}-{$city}站{/if}{else/}{$SEO['site_title']}{/if}</title>
+
+    <meta name="keywords" content="{$SEO['keyword']}">
+
+    <meta name="description" content="{$SEO['description']}">
+
+    <link rel="stylesheet" type="text/css" href="{__PUBLIC__}css/style.css">
+
+    <link rel="stylesheet" type="text/css" href="{__PUBLIC__}css/lrtk.css" media="all">
+
+	<!--<link rel="stylesheet" type="text/css" href="{__PUBLIC__}css/yx_style.css" media="all">-->
+
+    <script type="text/javascript" src="{__PUBLIC__}js/jquery-1.12.4.min.js"></script>
+	<script src="{__PUBLIC__}js/idangerous.swiper.min.js"></script>
+
+    <link rel="stylesheet" href="{__PUBLIC__}css/idangerous.swiper.css">
+    
+	
+	<link rel='shortcut icon' href='{__PUBLIC__}images/favicon.ico' type='image/x-icon'/>
+</head>
+
+<body>
+
+<div class="i_top">
+
+	<div class="top_n" id="wrap">
+
+        <div class="zw_logo left"><!--<div class="tel">{@config('SITE_INFO.phone')}</div>--><a href="{@config('SITE_INFO.siteurl')}"><img src="{__PUBLIC__}images/logo.png"></a></div>
+
+        <div class="nav right"  id="main_nav">
+
+            <ul>
+
+                <li><a href="{@config('SITE_INFO.siteurl')}">首 页</a></li>
+
+                {content action="category" category_id="0" num="4" return="data"}
+
+                {loop $data $v}
+
+                <li><a href="{$v[url]}">{$v[name]}</a>
+                
+                	{content action="category" category_id="$v['category_id']" num="8" return="data1"}
+		  {if $data1 != ""}
+			<ul>
+			{loop $data1 $s}
+			  <li><a href="{$s['url']}">{$s['name']}</a></li>
+			{/loop}
+			</ul>
+			{/if}
+		{/content}
+                </li>
+
+                {/loop}
+
+                {/content}
+
+            </ul>
+
+            <div class="clearit"></div>
+
+        </div>
+
+    </div>
+
+   <!--<div class="iBan">
+
+    <div class="iBanScreen">
+
+        <ul class="ibanImg">
+
+            {content action="ad" space_id="1" num="3" order="listorder ASC" return="data1"}
+
+            {loop $data1 $k $v}
+
+            <li style="background-image:url({$v[image]})"><a href="{$v['link_url']}" title="{$v[alt]}"><img src="{$v[image]}" alt="{$v[alt]}" border="0" align="left"></a></li>
+
+            {/loop}
+
+            {/content}
+
+        </ul>
+
+    </div>
+
+    <div class="banFn"></div>
+
+
+
+
+
+</div>-->
+<div class="swiper-container" style="height:750px;">
+  <div class="swiper-wrapper">
+  	 {content action="ad" space_id="1" num="3" order="listorder ASC" return="data1"}
+
+            {loop $data1 $k $v}
+
+    <div class="swiper-slide"><img src="{$v[image]}" alt="{$v[alt]}" border="0" align="left"></div>
+    {/loop}
+
+            {/content}
+  </div>
+</div>
+
+
+<script type="text/javascript">
+  var mySwiper = new Swiper('.swiper-container',{
+    loop: true,
+	autoplay: 3000,
+  });
+</script>
+
+    <!--{if $category_id == 0}<div class="shin"><img src="{__PUBLIC__}images/shin.png"></div>{/if}-->
+
+</div>

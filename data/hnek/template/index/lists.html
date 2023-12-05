@@ -1,0 +1,23 @@
+{template index/header}
+<div class="zw mc new_c">
+    {content action="lists" category_id="$category_id" num="9" page="$page"}
+    {php $i = 0;}
+    {loop $data $k $v}
+    {php $i++;}
+    <div class="nee left">
+        <div class="new_l">
+            <a href="{$v[url]}">
+                <div class="new_xh">0{$i}</div>
+                <div class="new_te">{@date('Y-m-d',$v[add_time])}</div>
+                <div class="new_bt">{$v[title]}</div>
+                <div class="new_xx">{@icutstr($v[description],100)}</div>
+                <div class="new_tu"><img src="{@thumb($v[image],275,215)}"></div>
+            </a>
+        </div>
+    </div>
+    {/loop}
+    <div class="pages">{$pages}</div>
+    {/content}
+    <div class="clearit"></div>
+</div>
+{template index/footer}

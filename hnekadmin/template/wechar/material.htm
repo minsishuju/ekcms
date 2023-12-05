@@ -1,0 +1,102 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <link rel="shortcut icon" href="favicon.ico" />
+        <link rel="stylesheet" type="text/css" href="{__PUBLIC__}style/bootstrap_min.css" media="all" />
+        <link rel="stylesheet" type="text/css" href="{__PUBLIC__}style/css.css" media="all" />
+        <script src="{__PUBLIC__}js/jquery.js"></script>
+        <title>E营销管理系统</title>
+    </head>
+    <body>
+        <ul class="breadcrumb">
+            <li><a href="javascript:void(0)">首页</a> <span class="divider">&gt;&gt;</span></li>
+            <li><a href="javascript:void(0)">微信管理</a> <span class="divider">&gt;&gt;</span></li>
+            <li class="active">微信素材管理</li>
+            <li class="pull-right" style="margin-top:-3px">
+                <a class="btn btn-small btn-primary pull-right" href="index.php?c=wechar&a=add_material">添加新素材</a>
+            </li>
+        </ul>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th width="5%">排序</th>
+                    <th width="10%">标题</th>
+                    <th width="10%">类型</th>
+                    <th width="30%">内容</th>
+                    <th width="10%">关键字</th>
+                    <th width="5%">关注回复</th>
+                    <th width="5%">默认回复</th>
+                    <th width="15%">添加时间</th>
+                    <th width="15%">管理操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                {foreach $list as $vo}
+                <tr>
+                    <td align='center'><span class="listorders" data-material_id="{$vo['material_id']}">{$vo['listorder']}</span></td>
+                    <td >{$vo['title']}</td>
+                    <td align='center'>{if $vo['type'] == 1}文字{else/}图文{/if}消息</td>
+                    <td >{$vo['description']}</td>
+                    <td>{$vo['keyword1']} , {$vo['keyword2']} , {$vo['keyword3']}</td>
+                    <td align='center'>{if $vo['subscribe'] == 1}是{else/}否{/if}</td>
+                    <td align='center'>{if $vo['default'] == 1}是{else/}否{/if}</td>
+                    <td align='center'>{@date('Y-m-d H:i:s',$vo['add_time'])}</td>
+                    <td align='center'>
+                        <a href="index.php?c=wechar&a=edit_material&id={$vo['material_id']}">修改</a> | 
+                        <a href="javascript:void(0)" onclick="return confirmurl('index.php?c=wechar&a=delete_material&id={$vo['material_id']}','确定删除该条素材吗?')">删除</a>
+                    </td>
+                </tr>
+                {/foreach}
+            </tbody>
+            <tfoot>
+                <tr > 
+                    <td colspan="9"><div class="pagination">{$page}</div></td>
+                </tr>
+            </tfoot>
+        </table>
+        <script>
+            function confirmurl(url,message){
+                if(confirm(message)){
+                    location.replace(url);
+                }
+            }
+            $(function(){
+                $('.listorders').click(function(){
+                    if($(this).children('input').length > 0){
+                        return false;
+                    }else{
+                        $(this).html('<input style="width:15px;" id="listorder' + $(this).data('material_id') + '" data-original="' + $(this).html() + '" value="' + $(this).html() + '">');
+                        $(this).children('input').focus();
+                        $(this).css({padding:'0'});
+                    }
+                });
+                $('.listorders').hover(
+                    function(){
+                        $(this).css({background:'#CCCCCC'})
+                    },
+                    function(){
+                        $(this).css({background:'#FFFFFF'})
+                    }
+                );
+                $('.listorders').on('blur','input',function(){
+                    var material_id = $(this).parent().data('material_id');
+                    var listorder = $(this).val();
+                    $.post('index.php?c=wechar&a=material_listorder',{material_id:material_id,listorder:listorder},function(data){
+                        $('#listorder'+data.material_id).parent().css({padding:'0 10px'});
+                        if(data.status == 1){
+                            $('#listorder'+data.material_id).parent().html(listorder);
+                        }else{
+                            $('#listorder'+data.material_id).parent().html($('#listorder'+data.material_id).data('original'));
+                        }
+                    });
+                    return false;
+                });
+            });
+        </script>
+    </body>
+</html>

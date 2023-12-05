@@ -1,0 +1,143 @@
+/*
+Uploadify
+Copyright (c) 2012 Reactive Apps, Ronnie Garcia
+Released under the MIT License <http://www.opensource.org/licenses/mit-license.php> 
+*/
+.uploadify_box{}
+.uploadify_box input{
+    margin:auto;
+}
+.uploadify {
+    position: relative;
+    margin: 0 auto;
+}
+.uploadify-button {
+	background-color: #505050;
+	background-position: center top;
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+	border:0px none;
+	color: #FFF;
+	font: bold 12px Arial, Helvetica, sans-serif;
+	text-align: center;
+	text-shadow: 0 -1px 0 rgba(0,0,0,0.25);
+	width: 100%;
+    padding: 0 12px;
+}
+.uploadify:hover .uploadify-button {
+	background-color: #606060;
+	background-position: center bottom;
+}
+.uploadify-button.disabled {
+	background-color: #D0D0D0;
+	color: #808080;
+}
+.uploadify-queue {
+    margin-bottom: 0px;
+}
+.uploadify-queue-item {
+	background-color: #F5F5F5;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	font: 11px Verdana, Geneva, sans-serif;
+}
+.uploadify-error {
+	background-color: #FDE5DD !important;
+}
+.uploadify-queue-item .cancel a {
+	background: url('./uploadify-cancel.png') 0 0 no-repeat;
+	float: right;
+	height:	16px;
+	text-indent: -9999px;
+	width: 16px;
+}
+.uploadify-queue-item.completed {
+	background-color: #E5E5E5;
+}
+.uploadify-progress {
+	background-color: #E5E5E5;
+	margin-top: 10px;
+	width: 100%;
+}
+.uploadify-progress-bar {
+	background-color: #0099FF;
+	height: 3px;
+	width: 1px;
+}
+
+.thumb {
+    float: left;
+    height: 30px;
+    margin-right: 10px;
+    width: 30px;
+}
+#_album_box{
+    list-style: outside none none;
+    margin: 0;
+    padding: 0;
+}
+#_album_box li{
+    float: left;
+    overflow: hidden;
+    padding: 10px 0;
+    width: 25%;
+}
+#_album_box li a {
+    border: 1px solid #eee;
+    display: block;
+    height: 94px;
+    text-align: center;
+    position: relative;
+    vertical-align: middle;
+    width: 104px;
+    overflow: hidden;
+    padding:10px 0;
+    margin: auto;
+}
+#_album_box li span {
+    display: block;
+    height: 25px;
+    line-height: 25px;
+    text-align: center;
+    position: relative;
+    width: 104px;
+    overflow: hidden;
+    margin: auto;
+}
+#_album_box li a  img{
+    max-width:94px;
+    max-height:94px;
+}
+#_album_box li a.on .icon {
+    background: url('./msg_bg.png') no-repeat center;
+    background-size: 100%;
+    bottom: 4px;
+    height: 18px;
+    overflow: hidden;
+    position: absolute;
+    right: 3px;
+    width: 16px;
+    z-index: 100;
+}
+#_uploadify_box {
+    margin: 0;
+}
+#_uploadify_one_box li {
+    list-style: outside none none;
+}
+#_uploadify_one_box li img {
+    height: 120px;
+    width: 120px;
+    display:block;
+    margin:0 auto;
+}
+#_uploadify_box li {
+    float: left;
+    list-style: outside none none;
+    margin-right: 5px;
+}
+#_uploadify_box li img {
+    height: 60px;
+    width: 60px;
+}

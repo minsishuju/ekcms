@@ -1,0 +1,40 @@
+<table class="table table-bordered">
+    <tbody>
+        <tr>
+            <td align="right" width="13%">昵称</td>
+            <td width="20%">{$info['nickname']}</td>
+            <td align="right" width="13%">性别</td>
+            <td width="20%">{if $info['sex'] == 1}男{elseif $info['sex'] == 2}未知{/if}</td>
+        </tr>
+        <tr>
+            <td align="right">国家</td>
+            <td>{$info['country']}</td>
+            <td align="right" width="13%">头像</td>
+            <td width="20%"><img src="{$info['headimgurl']}" style="width:30px;;height:30px;"></td>
+        </tr>
+        <tr>
+            <td align="right">省份</td>
+            <td>{$info['province']}</td>
+            <td align="right">省份</td>
+            <td>{$info['city']}</td>
+        </tr>
+        <tr>
+            <td align="right">关注时间</td>
+            <td>{@date('Y-m-d H:i:s',$info['subscribe_time'])}</td>
+            <td align="right">最后活跃时间</td>
+            <td>{@date('Y-m-d H:i:s',$info['end_time'])}</td>
+        </tr>
+        <tr>
+            <td align="right">关注状态</td>
+            <td>{if $info['subscribe'] == 1}已关注{else/}<span style="color:red">未关注</span>{/if}</td>
+            <td align="right">消息回复</td>
+            <td>
+                {if $info['subscribe'] == 1 && $info['end_time'] != 0 && (($info['end_time']-time()) < 48*60*60)}
+                <a href="index.php?c=wechar&a=reply_message&id={$info['member_id']}">消息回复</a>
+                {else/}
+                <span style="color:#CCC">消息回复</span>
+                {/if}
+            </td>
+        </tr>
+    </tbody>
+</table>
